@@ -7,7 +7,7 @@ import logic.Day;
 public class Card implements Serializable {
 
     private int id;
-    private ArrayList<Day> days;
+    protected ArrayList<Day> days;
 
     public Card(int id) {
         this.id = id;

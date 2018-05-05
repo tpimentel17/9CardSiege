@@ -46,6 +46,7 @@ public class TextUI {
             case '2':
                 break;
             case '3':
+                quit=true;
                 return;
         }
     }
