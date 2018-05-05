@@ -7,11 +7,18 @@ public class Day implements Serializable {
 
     private int day;
     private int actionPoints;
-    private String[] enemyOrders;
-
-    public Day(int day, int actionPoints, String[] enemyAdvancementOrders) {
+    private ArrayList<String> enemyOrders;
+            
+    public Day(int day, int actionPoints, ArrayList<String> enemyOrders) {
         this.day = day;
         this.actionPoints = actionPoints;
-        this.enemyOrders = enemyAdvancementOrders;
+        this.enemyOrders = new ArrayList<>();
+        this.enemyOrders.addAll(enemyOrders);
+    }
+    
+    public Day(int day, int actionPoints) {
+        this.day = day;
+        this.actionPoints = actionPoints;
+        this.enemyOrders = new ArrayList<>();
     }
 }
