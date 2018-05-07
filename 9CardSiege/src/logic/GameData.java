@@ -6,7 +6,8 @@ import java.util.Collections;
 import logic.cards.*;
 
 public class GameData implements Serializable {
-
+    
+    private int currentDay;
     private PlayerStats playerStats;
     private EnemyTracks enemyTracks;
     private Die die;
@@ -22,6 +23,7 @@ public class GameData implements Serializable {
     }
 
     public boolean initialize() {
+        currentDay = 1;
         deck.add(new Card1());
         deck.add(new Card2());
         deck.add(new Card3());
@@ -32,5 +34,16 @@ public class GameData implements Serializable {
         Collections.shuffle(deck);
         
         return true;
+    }
+    
+    public int getCurrentDay(){
+        return currentDay;
+    }
+    public PlayerStats getPlayerStats(){
+        return playerStats;
+    }
+    
+    public EnemyTracks getEnemyTracks(){
+        return enemyTracks;
     }
 }

@@ -1,4 +1,3 @@
-
 package logic.states;
 
 import logic.GameData;
@@ -12,7 +11,7 @@ public class AwaitBegining extends StateAdapter {
     @Override
     public IStates startGame() {
         if(getGame().initialize())
-            return new AwaitBegining(getGame());
+            return new AwaitTopCardToBeDrawn(getGame());
         return this;
     }
     

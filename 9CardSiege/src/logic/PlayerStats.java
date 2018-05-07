@@ -18,9 +18,48 @@ public class PlayerStats implements Serializable {
         tunnel = CASTLE;
         numberOfRaidedSupplies = 0;
     }
-    
+
     //GETTERS
-    
+    public int getWallStrength() {
+        return wallStrength;
+    }
+
+    public int getMorale() {
+        return morale;
+    }
+
+    public int getSupplies() {
+        return supplies;
+    }
+
+    public int getTunnel() {
+        return tunnel;
+    }
+
+    public int getNumberOfRaidedSupplies() {
+        return numberOfRaidedSupplies;
+    }
+
     //SETTERS
+    public void setWallStrength(int wallStrength) {
+        this.wallStrength = wallStrength;
+    }
+
+    public void setMorale(int morale) {
+        this.morale = morale;
+    }
+
+    public void setSupplies(int supplies) {
+        this.supplies = supplies;
+    }
+
+    public void setTunnel(int tunnel) {
+        this.tunnel = tunnel;
+    }
+
+    public void setNumberOfRaidedSupplies(int numberOfRaidedSupplies) {
+        this.numberOfRaidedSupplies = numberOfRaidedSupplies;
+    }
+    
 
 }
