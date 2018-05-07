@@ -51,6 +51,10 @@ public class TextUI {
         }
     }
     
+    public void uiAwaitTopCardToBeDrawn(){
+        
+    }
+    
     public void run(){
         while(!quit){
             IStates state = gameModel.getState();

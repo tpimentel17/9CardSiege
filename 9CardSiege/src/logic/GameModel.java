@@ -11,10 +11,18 @@ public class GameModel implements Serializable{
     
     public GameModel(){
         gameData = new GameData();
-        state = new AwaitBegining();
+        state = new AwaitBegining(gameData);
     }
     
-    public IStates getState(){
+    public GameData getGameData() {
+        return gameData;
+    }
+
+    public void setGameData(GameData gameData) {
+        this.gameData = gameData;
+    }
+
+    public IStates getState() {
         return state;
     }
 }
