@@ -24,4 +24,23 @@ public class Day implements Serializable {
         this.enemyOrders = new ArrayList<>();
         trebuchetEvent = true;
     }
+
+    //GETTERS
+    public int getDay() {
+        return day;
+    }
+
+    public int getActionPoints() {
+        return actionPoints;
+    }
+
+    public ArrayList<String> getEnemyOrders() {
+        return enemyOrders;
+    }
+
+    public boolean isTrebuchetEvent() {
+        return trebuchetEvent;
+    }
+    
+    
 }

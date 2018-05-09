@@ -13,4 +13,13 @@ public class Card implements Serializable {
         this.id = id;
         days = new ArrayList<>();
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public Day getDay(int day) {
+        return days.get(day - 1);
+    }
+
 }

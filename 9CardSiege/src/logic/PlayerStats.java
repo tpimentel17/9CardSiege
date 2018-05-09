@@ -39,14 +39,27 @@ public class PlayerStats implements Serializable {
     public int getNumberOfRaidedSupplies() {
         return numberOfRaidedSupplies;
     }
+    
+    public int getNumberOfZeroStats() {
+        int num = 0;
+
+        if (wallStrength == 0) {
+            num++;
+        }
+        if (morale == 0) {
+            num++;
+        }
+        if (supplies == 0) {
+            num++;
+        }
+
+        return num;
+    }
+    
 
     //SETTERS
     public void setWallStrength(int wallStrength) {
         this.wallStrength = wallStrength;
-    }
-
-    public void setMorale(int morale) {
-        this.morale = morale;
     }
 
     public void setSupplies(int supplies) {
@@ -61,5 +74,15 @@ public class PlayerStats implements Serializable {
         this.numberOfRaidedSupplies = numberOfRaidedSupplies;
     }
     
+    public void damageWall(int damage){
+        if(wallStrength - damage < 0)
+            wallStrength = 0;
+        else
+            wallStrength -= damage;
+    }
+    
+    public void reduceMorale(){
+        morale--;
+    }
 
 }

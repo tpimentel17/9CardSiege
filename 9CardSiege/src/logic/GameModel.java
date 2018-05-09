@@ -35,4 +35,8 @@ public class GameModel implements Serializable {
     public void startGame() {
         setState(getState().startGame());
     }
+    
+    public void drawTopCard(){
+        setState(getState().drawTopCard());
+    }
 }

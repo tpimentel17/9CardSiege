@@ -46,6 +46,7 @@ public class TextUI {
                 gameModel.startGame();
                 break;
             case '2':
+                //Falta implementar <------------------------------------------------
                 break;
             case '3':
                 quit = true;
@@ -87,6 +88,7 @@ public class TextUI {
 
         switch (c) {
             case '1':
+                gameModel.drawTopCard();
                 break;
             case '2':
                 showStatusTracks();
@@ -95,11 +97,68 @@ public class TextUI {
                 showEnemyTracks();
                 break;
             case '4':
+                //Falta implementar <------------------------------------------------
                 break;
             case '5':
                 quit = true;
                 return;
         }
+    }
+
+    public void uiAwaitPlayerActionSelection() {
+        Scanner sc = new Scanner(System.in);
+        String option;
+        char c;
+        
+        System.out.println();
+        System.out.println();
+        System.out.println("*********************************************");
+        System.out.println();
+        System.out.println("\n=== SELECT AN ACTION ===\n");
+        
+        do {
+
+            System.out.println();
+            System.out.println("1 - Draw Card");
+            System.out.println("2 - Show Status Tracks");
+            System.out.println("3 - Show Enemy Tracks");
+            System.out.println("4 - Quit");
+            System.out.println();
+            System.out.print("> ");
+
+            option = sc.next();
+
+            if (option.length() >= 1) {
+                c = option.charAt(0);
+            } else {
+                c = ' ';
+            }
+
+        } while (c < '1' || c > '4');
+
+        switch (c) {
+            case '1':
+                
+                break;
+            case '2':
+                showStatusTracks();
+                break;
+            case '3':
+                showEnemyTracks();
+                break;
+            case '4':
+                quit = true;
+                return;
+        }
+    }
+
+    public void uiAwaitGameFinish() {
+        System.out.println();
+        System.out.println();
+        System.out.println("*********************************************");
+        System.out.println();
+        System.out.println("\n=== GG NOOB ===\n");
+
     }
 
     public void run() {
@@ -110,13 +169,16 @@ public class TextUI {
                 uiAwaitBeginning();
             } else if (state instanceof AwaitTopCardToBeDrawn) {
                 uiAwaitTopCardToBeDrawn();
+            } else if (state instanceof AwaitPlayerActionSelection) {
+                uiAwaitPlayerActionSelection();
+            } else if (state instanceof AwaitGameFinish) {
+                uiAwaitGameFinish();
             }
 
         }
-
     }
-
     //--------------------------Private methods--------------------------
+
     private void showStatusTracks() {
         System.out.println();
         System.out.println("****Status Tracks****");
@@ -151,7 +213,7 @@ public class TextUI {
         int towerPosition = gameModel.getGameData().getEnemyTracks().getTowerPosition();
 
         int closeCombatUnits = 0;
-        
+
         if (laddersPosition == 0) {
             closeCombatUnits++;
         } else if (ramPosition == 0) {
@@ -159,14 +221,14 @@ public class TextUI {
         } else if (towerPosition == 0) {
             closeCombatUnits++;
         }
-        
+
         System.out.println();
         System.out.println("****Enemy Tracks****");
         System.out.println();
-        System.out.println("Close combat units -> " + closeCombatUnits + " Strength: 4 (each)");
-        System.out.println("Ladders distance -> " + laddersPosition + " Strength: 2");
-        System.out.println("Battering Ram distance -> " + ramPosition + " Strength: 3");
-        System.out.println("Siege Tower distance -> " + towerPosition + " Strength: 4");
+        System.out.println("Close combat units -> " + closeCombatUnits + "\t\tStrength: 4 (each)");
+        System.out.println("Ladders distance -> " + laddersPosition + "\t\tStrength: 2");
+        System.out.println("Battering Ram distance -> " + ramPosition + "\tStrength: 3");
+        System.out.println("Siege Tower distance -> " + towerPosition + "\tStrength: 4");
         System.out.println("Number of Trebuchet(s) -> " + gameModel.getGameData().getEnemyTracks().getNumberOfTrebuchets());
     }
 

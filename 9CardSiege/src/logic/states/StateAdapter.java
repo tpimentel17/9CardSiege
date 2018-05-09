@@ -22,4 +22,9 @@ public class StateAdapter implements IStates {
     public IStates startGame() {
         return this;
     }
+
+    @Override
+    public IStates drawTopCard() {
+        return this;
+    }
 }
