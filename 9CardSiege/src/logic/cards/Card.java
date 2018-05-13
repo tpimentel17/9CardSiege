@@ -22,4 +22,11 @@ public class Card implements Serializable {
         return days.get(day - 1);
     }
 
+    @Override
+    public String toString() {
+        return "Card #" + id;
+    }
+    
+    
+
 }

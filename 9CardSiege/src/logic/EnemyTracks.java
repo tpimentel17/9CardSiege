@@ -83,26 +83,81 @@ public class EnemyTracks implements Serializable {
 
     //***************************************************
     public void moveForward(String unit) {
+        System.out.println("");
         switch (unit) {
             case LADDERS:
+                if (laddersPosition == 0) {
+                    break;
+                }
+                System.out.println("Ladders have moved forward 1 unit.");
                 laddersPosition--;
                 break;
+
             case BATTERING_RAM:
+                if (ramPosition == 0) {
+                    break;
+                }
+                System.out.println("Battering Ram has moved forward 1 unit.");
                 ramPosition--;
                 break;
+
             case SIEGE_TOWER:
+                if (towerPosition == 0) {
+                    break;
+                }
+                System.out.println("Siege Tower has moved forward 1 unit.");
                 towerPosition--;
                 break;
+
             case SLOWEST_UNIT:
                 if (laddersPosition == getSlowestPosition()) {
+                    if (laddersPosition == 0) {
+                        break;
+                    }
+                    System.out.println("Ladders have moved forward 1 unit.");
                     laddersPosition--;
                 }
                 if (ramPosition == getSlowestPosition()) {
+                    if (ramPosition == 0) {
+                        break;
+                    }
+                    System.out.println("Battering Ram has moved forward 1 unit.");
                     ramPosition--;
                 }
                 if (towerPosition == getSlowestPosition()) {
+                    if (towerPosition == 0) {
+                        break;
+                    }
+                    System.out.println("Siege Tower has moved forward 1 unit.");
                     towerPosition--;
                 }
+                break;
+        }
+    }
+
+    public void moveBackwards(String unit) {
+        System.out.println("");
+        switch (unit) {
+            case LADDERS:
+                if (laddersPosition == 4) {
+                    break;
+                }
+                System.out.println("Ladders have moved backwards 1 unit.");
+                laddersPosition++;
+                break;
+            case BATTERING_RAM:
+                if (ramPosition == 4) {
+                    break;
+                }
+                System.out.println("Battering Ram has moved backwards 1 unit.");
+                ramPosition++;
+                break;
+            case SIEGE_TOWER:
+                if (towerPosition == 4) {
+                    break;
+                }
+                System.out.println("Siege Tower has moved backwards 1 unit.");
+                towerPosition++;
                 break;
         }
     }

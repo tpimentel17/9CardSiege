@@ -39,4 +39,12 @@ public class GameModel implements Serializable {
     public void drawTopCard(){
         setState(getState().drawTopCard());
     }
+    
+    public void archersAttack(){
+        setState(getState().archersAttack());
+    }
+    
+    public void attackSelectedTrack(String action, String selectedTrack){
+        setState(getState().attackSelectedTrack(action, selectedTrack));
+    }
 }

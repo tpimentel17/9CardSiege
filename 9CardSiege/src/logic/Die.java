@@ -16,5 +16,6 @@ public class Die implements Serializable {
     
     public void roll() {
         value = (int) (Math.random() * (6) + 1);    //((max-min)+min)+1
+        System.out.println("A " + value +" was rolled.");
     }
 }

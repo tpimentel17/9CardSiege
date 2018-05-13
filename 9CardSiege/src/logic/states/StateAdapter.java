@@ -27,4 +27,19 @@ public class StateAdapter implements IStates {
     public IStates drawTopCard() {
         return this;
     }
+
+    @Override
+    public IStates archersAttack() {
+        return this;
+    }
+
+    @Override
+    public IStates attackSelectedTrack(String action, String selectedTrack) {
+        return this;
+    }
+
+    @Override
+    public IStates boilingWaterAttack() {
+        return this;
+    }
 }

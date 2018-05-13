@@ -61,9 +61,9 @@ public class TextUI {
 
         System.out.println();
         System.out.println();
-        System.out.println("*********************************************");
+        System.out.println("**********************************************************");
         System.out.println();
-        System.out.println("\n=== DRAW CARD FROM DECK ===\n");
+        System.out.println("\n=== DRAW CARD FROM DECK - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
 
         do {
 
@@ -109,20 +109,27 @@ public class TextUI {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
-        
-        System.out.println();
-        System.out.println();
-        System.out.println("*********************************************");
-        System.out.println();
-        System.out.println("\n=== SELECT AN ACTION ===\n");
-        
-        do {
 
+        System.out.println();
+        System.out.println();
+        System.out.println("**********************************************************");
+        System.out.println();
+        System.out.println("\n=== SELECT AN ACTION - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
+
+        do {
             System.out.println();
-            System.out.println("1 - Draw Card");
-            System.out.println("2 - Show Status Tracks");
-            System.out.println("3 - Show Enemy Tracks");
-            System.out.println("4 - Quit");
+            System.out.println("Available Action Points: " + gameModel.getGameData().getCurrentActionPoints());
+            System.out.println();
+            System.out.println("1 - Archers Attack");
+            System.out.println("2 - Boiling Water Attack");
+            System.out.println("3 - Close Combat Attack");
+            System.out.println("4 - Coupure");
+            System.out.println("5 - Rally Troops");
+            System.out.println("6 - Tunnel Movement");
+            System.out.println("7 - Supply Raid");
+            System.out.println("8 - Sabotage");
+            System.out.println("9 - Quit");
+
             System.out.println();
             System.out.print("> ");
 
@@ -134,11 +141,11 @@ public class TextUI {
                 c = ' ';
             }
 
-        } while (c < '1' || c > '4');
+        } while (c < '1' || c > '9');
 
         switch (c) {
             case '1':
-                
+                gameModel.archersAttack();
                 break;
             case '2':
                 showStatusTracks();
@@ -146,16 +153,74 @@ public class TextUI {
             case '3':
                 showEnemyTracks();
                 break;
-            case '4':
+            case '9':
                 quit = true;
                 return;
+        }
+    }
+
+    public void uiAwaitTrackSelection() {
+        Scanner sc = new Scanner(System.in);
+        String option;
+        char c;
+
+        System.out.println();
+        System.out.println();
+        System.out.println("**********************************************************");
+
+        if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
+            System.out.println("\n=== SELECT THE TRACK TO BE ATTACKED BY THE ARCHERS - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
+        } else {
+            System.out.println("\n=== SELECT THE TRACK TO BE ATTACKED WITH BOILING WATER - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
+        }
+
+        do {
+            System.out.println();
+            System.out.println("1 - Ladders");
+            System.out.println("2 - Battering Ram");
+            System.out.println("3 - Siege Tower");
+            System.out.println();
+            System.out.print("> ");
+
+            option = sc.next();
+
+            if (option.length() >= 1) {
+                c = option.charAt(0);
+            } else {
+                c = ' ';
+            }
+
+        } while (c < '1' || c > '3');
+
+        switch (c) {
+            case '1':
+                if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
+                    gameModel.attackSelectedTrack(ARCHERS, LADDERS);
+                } else {
+
+                }
+                break;
+            case '2':
+                if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
+                    gameModel.attackSelectedTrack(ARCHERS, BATTERING_RAM);
+                } else {
+
+                }
+                break;
+            case '3':
+                if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
+                    gameModel.attackSelectedTrack(ARCHERS, SIEGE_TOWER);
+                } else {
+                    
+                }
+                break;
         }
     }
 
     public void uiAwaitGameFinish() {
         System.out.println();
         System.out.println();
-        System.out.println("*********************************************");
+        System.out.println("**********************************************************");
         System.out.println();
         System.out.println("\n=== GG NOOB ===\n");
 
@@ -173,8 +238,9 @@ public class TextUI {
                 uiAwaitPlayerActionSelection();
             } else if (state instanceof AwaitGameFinish) {
                 uiAwaitGameFinish();
+            } else if (state instanceof AwaitTrackSelection) {
+                uiAwaitTrackSelection();
             }
-
         }
     }
     //--------------------------Private methods--------------------------

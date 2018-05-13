@@ -75,6 +75,7 @@ public class PlayerStats implements Serializable {
     }
     
     public void damageWall(int damage){
+        System.out.println("The wall has suffered " + damage + " damage point(s).");
         if(wallStrength - damage < 0)
             wallStrength = 0;
         else
@@ -82,6 +83,7 @@ public class PlayerStats implements Serializable {
     }
     
     public void reduceMorale(){
+        System.out.println("You've lost 1 Morale point.");
         morale--;
     }
 

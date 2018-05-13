@@ -14,4 +14,8 @@ public interface Constants {
     public static final int TUNNEL_CASTLE = 1;
     public static final int TUNNEL_ENEMY = 2;
     public static final int ENEMY_LINES = 3;
+    
+    //ACTIONS
+    public static final String ARCHERS = "Archers";
+    public static final String BOILING_WATER = "BoilingWater";
 }
