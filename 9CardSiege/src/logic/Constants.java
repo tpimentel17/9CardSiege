@@ -24,5 +24,8 @@ public interface Constants {
     public static final int CONTINUE = 1;
     public static final int VICTORY = 2;
     public static final int DRAW_CARD = 4;
+    
+    //FILES
+    public static final String FILE_TO_SAVE_GAME = "gamesave.bin";
 
 }

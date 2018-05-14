@@ -8,7 +8,7 @@ import logic.cards.*;
 
 public class GameData implements Serializable {
 
-    private int gameStatus;         
+    private int gameStatus;
     private int currentDay;
     private int currentActionPoints;
     private PlayerStats playerStats;
@@ -18,7 +18,6 @@ public class GameData implements Serializable {
     private ArrayList<Card> drawnCards;
 
     private boolean gameFinish;
-    private boolean gameWon;
     private boolean boiledWaterWasUsed;
 
     public GameData() {
@@ -76,26 +75,21 @@ public class GameData implements Serializable {
     }
 
     // </editor-fold>
-    
     // <editor-fold desc="SETTERS">
-    public void setDefaultStatus(){
+    public void setDefaultStatus() {
         gameStatus = CONTINUE;
     }
-    
+
     // </editor-fold>
-    
-    
     // <editor-fold desc="PUBLIC METHODS">
-    
-    public int checkGameStatus(){
+    public int checkGameStatus() {
         endOfTurnCheck();
         endOfDayCheck();
-        
+
         return gameStatus;
     }
-    
+
     //</editor-fold>
-    
     // <editor-fold desc="PRIVATE METHODS">
     private boolean endOfTurnLossCheck() {
         if (enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerStats.getNumberOfZeroStats() > 0) {
@@ -103,13 +97,22 @@ public class GameData implements Serializable {
         }
         return false;
     }
-    
+
+    private void reshuffleDeck() {
+        deck.addAll(drawnCards);
+        drawnCards.clear();
+        Collections.shuffle(deck);
+
+    }
+
     private boolean endOfDayCheck() {
-        if(deck.isEmpty()){
+        if (deck.isEmpty()) {
             playerStats.reduceSupplies(1);
-            if(playerStats.getSupplies() == 0){
+            currentDay++;
+            reshuffleDeck();
+            if (playerStats.getSupplies() == 0) {
                 gameStatus = DEFEAT;
-            }else if(currentDay == 3){
+            } else if (currentDay == 3) {
                 gameStatus = VICTORY;
             }
         }
@@ -120,7 +123,7 @@ public class GameData implements Serializable {
         if (currentActionPoints == 0) {
             gameStatus = DRAW_CARD;
             boiledWaterWasUsed = false;
-            if(endOfTurnLossCheck()){
+            if (endOfTurnLossCheck()) {
                 gameStatus = DEFEAT;
             }
             return true;
@@ -129,9 +132,7 @@ public class GameData implements Serializable {
     }
 
     // </editor-fold>
-    
     // <editor-fold desc="STATE TRANSITION ACTIONS">
-
     public boolean drawTopCard() {
 
         //Remove carta do baralho e adiciona ao baralho de removidas        
@@ -241,7 +242,7 @@ public class GameData implements Serializable {
     }
 
     public boolean attackSelectedTrack(String action, String selectedTrack) {
-        
+
         //Archers Attack
         if (action.equals(ARCHERS)) {
             die.roll();
@@ -314,7 +315,7 @@ public class GameData implements Serializable {
                         System.out.println("*****************************************************************");
                         return false;
                     }
-                    
+
                     currentActionPoints--;
                     die.roll();
                     if (die.getValue() + 1 > 3) {
@@ -330,7 +331,7 @@ public class GameData implements Serializable {
                         System.out.println("***************************************************************");
                         return false;
                     }
-                    
+
                     currentActionPoints--;
                     die.roll();
                     if (die.getValue() + 1 > 4) {
@@ -342,7 +343,7 @@ public class GameData implements Serializable {
             }
             boiledWaterWasUsed = true;
         }
-        
+
         return true;
     }
     // </editor-fold>

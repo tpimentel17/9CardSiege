@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import logic.Day;
 
-public class Card implements Serializable {
+public abstract class Card implements Serializable {
 
     private int id;
     protected ArrayList<Day> days;

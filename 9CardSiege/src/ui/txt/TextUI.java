@@ -1,6 +1,10 @@
 package ui.txt;
 
+import files.FileUtility;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static logic.Constants.*;
 import logic.GameModel;
 import logic.states.*;
@@ -46,7 +50,15 @@ public class TextUI {
                 gameModel.startGame();
                 break;
             case '2':
-                //Falta implementar <------------------------------------------------
+                try {
+                    gameModel = (GameModel) FileUtility.loadGameFromFile();
+                    System.out.println("Game was successfully loaded.");
+                } catch (ClassNotFoundException ex) {
+                    System.out.println("[EXCEPTION] Loaded object class not found!");
+                } catch (IOException ex) {
+                    System.out.println("[EXCEPTION] Problem loading object from file!");
+                }
+                
                 break;
             case '3':
                 quit = true;
@@ -97,7 +109,8 @@ public class TextUI {
                 showEnemyTracks();
                 break;
             case '4':
-                //Falta implementar <------------------------------------------------
+                FileUtility.saveGameToFile(gameModel);
+                System.out.println("Game was successfully saved.");
                 break;
             case '5':
                 quit = true;
@@ -230,7 +243,7 @@ public class TextUI {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
-        
+
         System.out.println();
         System.out.println();
         System.out.println("**********************************************************");
@@ -242,7 +255,7 @@ public class TextUI {
         } else {
             System.out.println("\n-------------> NÃO FOI DESTA QUE VENCEU <-------------");
         }
-        
+
         do {
 
             System.out.println();
