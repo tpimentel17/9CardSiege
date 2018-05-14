@@ -47,4 +47,25 @@ public class StateAdapter implements IStates {
     public IStates restartGame() {
         return this;
     }
+
+    @Override
+    public IStates closeCombat() {
+        return this;
+    }
+
+    @Override
+    public IStates coupure() {
+        return this;
+    }
+
+    @Override
+    public IStates rallyTroopsOptions() {
+        return this;
+    }
+
+    @Override
+    public IStates rallyTroops(boolean drm) {
+        return this;
+    }
+
 }

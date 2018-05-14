@@ -28,8 +28,7 @@ public class AwaitTrackSelection extends StateAdapter {
                 case DEFEAT:
                     return new AwaitGameFinish(getGame(), DEFEAT);
                 case CONTINUE:
-                    return new AwaitPlayerActionSelection(getGame());
-                            
+                    return new AwaitPlayerActionSelection(getGame());          
             }
         }
         return this;

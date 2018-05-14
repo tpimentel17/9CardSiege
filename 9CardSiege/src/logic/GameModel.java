@@ -56,4 +56,20 @@ public class GameModel implements Serializable {
     public void restartGame(){
         setState(getState().restartGame());
     }
+    
+    public void closeCombat(){
+        setState(getState().closeCombat());
+    }
+    
+    public void coupure(){
+        setState(getState().coupure());
+    }
+    
+    public void rallyTroopsOptions(){
+        setState(getState().rallyTroopsOptions());
+    }
+    
+    public void rallyTroops(boolean drm){
+        setState(getState().rallyTroops(drm));
+    }
 }

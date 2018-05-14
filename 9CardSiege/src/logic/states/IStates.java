@@ -11,5 +11,13 @@ public interface IStates extends Serializable {
                                                                         //AwaitTrackSelection -> AwaitTopCardToBeDrawn
                                                                         //AwaitTrackSelection -> AwaitGameFinish
     IStates boilingWaterAttack();   //AwaitPlayerActionSelection -> AwaitTrackSelection
-    IStates restartGame();          //AwaitGameFinish -> AwaitGameBegining
+    IStates restartGame();      //AwaitGameFinish -> AwaitGameBegining
+    IStates closeCombat();      //AwaitPlayerActionSelection -> AwaitTrackSelection
+    IStates coupure();      //AwaitPlayerActionSelection -> AwaitPlayerActionSelection
+                            //AwaitPlayerActionSelection -> AwaitTopCardToBeDrawn
+                            //AwaitPlayerActionSelection -> AwaitGameFinish
+    IStates rallyTroopsOptions();   //AwaitPlayerActionSelection -> AwaitOptionSelection
+    IStates rallyTroops(boolean drm);   //AwaitOptionSelection -> AwaitPlayerActionSelection
+                                        //AwaitOptionSelection -> AwaitTopCardToBeDrawn
+                                        //AwaitOptionSelection -> AwaitGameFinish
 }

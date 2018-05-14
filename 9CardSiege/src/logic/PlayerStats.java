@@ -32,10 +32,6 @@ public class PlayerStats implements Serializable {
         return supplies;
     }
 
-    public int getTunnel() {
-        return tunnel;
-    }
-
     public int getNumberOfRaidedSupplies() {
         return numberOfRaidedSupplies;
     }
@@ -54,6 +50,10 @@ public class PlayerStats implements Serializable {
         }
 
         return num;
+    }
+
+    public int getSoldiersLocation() {
+        return tunnel;
     }
     // </editor-fold>
 
@@ -87,13 +87,67 @@ public class PlayerStats implements Serializable {
 
     public void reduceMorale() {
         System.out.println("You've lost 1 Morale point.");
+        if (morale == 0) {
+            return;
+        }
         morale--;
+    }
+    
+    public void increaseMorale(){
+        System.out.println("You've gained 1 Morale point.");
+        if (morale == 4) {
+            return;
+        }
+        morale++;
     }
 
     public void reduceSupplies(int amount) {
         System.out.println("You've lost " + amount + " Supplies point(s).");
-        supplies -= amount;
+        if (supplies - amount < 0) {
+            supplies = 0;
+        } else {
+            supplies -= amount;
+        }
     }
 
+    public void clearRaidedSupplies() {
+        System.out.println("Raided supplies were cleared.");
+        numberOfRaidedSupplies = 0;
+    }
+
+    public void addSupplies(int amount) {
+        System.out.println("You've gained " + amount + " Supplies point(s).");
+        if (supplies + amount > 4) {
+            supplies = 4;
+        } else {
+            supplies += amount;
+        }
+    }
+
+    public void moveSoldiers(int position) {
+        tunnel = position;
+        switch (position) {
+            case CASTLE:
+                System.out.println("Soldiers moved back to the castle!");
+                break;
+            case TUNNEL_CASTLE:
+                System.out.println("Soldiers moved to the castle side of the tunnel!");
+                break;
+            case TUNNEL_ENEMY:
+                System.out.println("Soldiers moved to the enemy lines side of the tunnel!");
+                break;
+            case ENEMY_LINES:
+                System.out.println("Soldiers are now behind the enemy lines!");
+                break;
+        }
+    }
+
+    public void repairWall() {
+        System.out.println("Your wall was repaired in 1 point.");
+        if (wallStrength == 4) {
+            return;
+        }
+        wallStrength++;
+    }
     // </editor-fold>
 }

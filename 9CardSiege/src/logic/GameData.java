@@ -110,7 +110,18 @@ public class GameData implements Serializable {
             playerStats.reduceSupplies(1);
             currentDay++;
             reshuffleDeck();
-            if (playerStats.getSupplies() == 0) {
+
+            if (playerStats.getSoldiersLocation() != ENEMY_LINES) {
+                playerStats.addSupplies(playerStats.getNumberOfRaidedSupplies());
+                playerStats.clearRaidedSupplies();
+                playerStats.moveSoldiers(CASTLE);
+            } else {
+                playerStats.moveSoldiers(CASTLE);
+                playerStats.clearRaidedSupplies();
+                playerStats.reduceMorale();
+            }
+
+            if (playerStats.getSupplies() == 0 || playerStats.getMorale() == 0) {
                 gameStatus = DEFEAT;
             } else if (currentDay == 3) {
                 gameStatus = VICTORY;
@@ -291,7 +302,7 @@ public class GameData implements Serializable {
             }
 
             //Boiling Water Attack
-        } else {
+        } else if (action.equals(BOILING_WATER)) {
             switch (selectedTrack) {
                 case LADDERS:
                     if (enemyTracks.getRamPosition() != 1) {
@@ -300,8 +311,12 @@ public class GameData implements Serializable {
                         System.out.println("**********************************************************");
                         return false;
                     }
+
                     currentActionPoints--;
                     die.roll();
+                    if (die.getValue() == 1) {
+                        playerStats.reduceMorale();;
+                    }
                     if (die.getValue() + 1 > 2) {
                         enemyTracks.moveBackwards(LADDERS);
                     } else {
@@ -318,6 +333,9 @@ public class GameData implements Serializable {
 
                     currentActionPoints--;
                     die.roll();
+                    if (die.getValue() == 1) {
+                        playerStats.reduceMorale();;
+                    }
                     if (die.getValue() + 1 > 3) {
                         enemyTracks.moveBackwards(BATTERING_RAM);
                     } else {
@@ -334,6 +352,9 @@ public class GameData implements Serializable {
 
                     currentActionPoints--;
                     die.roll();
+                    if (die.getValue() == 1) {
+                        playerStats.reduceMorale();;
+                    }
                     if (die.getValue() + 1 > 4) {
                         enemyTracks.moveBackwards(SIEGE_TOWER);
                     } else {
@@ -342,10 +363,119 @@ public class GameData implements Serializable {
                     break;
             }
             boiledWaterWasUsed = true;
+        } else {
+            switch (selectedTrack) {
+                case LADDERS:
+                    if (enemyTracks.getRamPosition() != 0) {
+                        System.out.println("\n\n****************************************************************");
+                        System.out.println("[INVALID ACTION] There are no Ladders in the close combat area!");
+                        System.out.println("****************************************************************");
+                        return false;
+                    }
+
+                    currentActionPoints--;
+                    die.roll();
+                    if (die.getValue() == 1) {
+                        playerStats.reduceMorale();;
+                    }
+                    if (die.getValue() > 4) {
+                        enemyTracks.moveBackwards(LADDERS);
+                    } else {
+                        System.out.println("The attack wasn't effective!");
+                    }
+                    break;
+
+                case BATTERING_RAM:
+                    if (enemyTracks.getRamPosition() != 0) {
+                        System.out.println("\n\n**********************************************************************");
+                        System.out.println("[INVALID ACTION] There isn't a Battering Ram in the close combat area!");
+                        System.out.println("**********************************************************************");
+                        return false;
+                    }
+
+                    currentActionPoints--;
+                    die.roll();
+                    if (die.getValue() == 1) {
+                        playerStats.reduceMorale();;
+                    }
+                    if (die.getValue() > 4) {
+                        enemyTracks.moveBackwards(BATTERING_RAM);
+                    } else {
+                        System.out.println("The attack wasn't effective!");
+                    }
+                    break;
+
+                case SIEGE_TOWER:
+                    if (enemyTracks.getTowerPosition() != 0) {
+                        System.out.println("\n\n********************************************************************");
+                        System.out.println("[INVALID ACTION] There isn't a Siege Tower in the close combat area!");
+                        System.out.println("********************************************************************");
+                        return false;
+                    }
+                    currentActionPoints--;
+                    die.roll();
+                    if (die.getValue() == 1) {
+                        playerStats.reduceMorale();;
+                    }
+                    if (die.getValue() > 4) {
+                        enemyTracks.moveBackwards(SIEGE_TOWER);
+                    } else {
+                        System.out.println("The attack wasn't effective!");
+                    }
+                    break;
+            }
         }
 
         return true;
     }
+
+    public boolean closeCombat() {
+        if (currentActionPoints == 0) {
+            System.out.println("\n\n***************************************************************");
+            System.out.println("[INVALID ACTION] You don't have enough Action Points Available!");
+            System.out.println("***************************************************************");
+            return false;
+        } else if (enemyTracks.getNumberOfUnitsInCloseCombat() == 0) {
+            System.out.println("\n\n**************************************************************");
+            System.out.println("[INVALID ACTION] There are no enemies in the close combat area");
+            System.out.println("**************************************************************");
+            return false;
+        }
+        return true;
+    }
     // </editor-fold>
 
+    public void coupure() {
+        currentActionPoints--;
+        die.roll();
+        if (die.getValue() > 4) {
+            playerStats.repairWall();
+        }
+    }
+
+    public boolean rallyTroopsOptions() {
+        if (currentActionPoints == 0) {
+            System.out.println("\n\n***************************************************************");
+            System.out.println("[INVALID ACTION] You don't have enough Action Points Available!");
+            System.out.println("***************************************************************");
+            return false;
+        }
+        return true;
+    }
+
+    public void rallyTroops(boolean drm) {
+        currentActionPoints--;
+        die.roll();
+        if (drm) {
+            playerStats.reduceSupplies(1);
+            if (die.getValue() + 1 > 4) {
+                playerStats.increaseMorale();
+            }
+        } else {
+            if (die.getValue() > 4) {
+                playerStats.increaseMorale();
+            }
+        }
+
+    }
 }

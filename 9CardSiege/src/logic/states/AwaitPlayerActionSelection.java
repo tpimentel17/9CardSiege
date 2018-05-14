@@ -26,4 +26,38 @@ public class AwaitPlayerActionSelection extends StateAdapter {
         return this;
     }
 
+    @Override
+    public IStates closeCombat() {
+        if (getGame().closeCombat()) {
+            return new AwaitTrackSelection(getGame(), CLOSE_COMBAT);
+
+        }
+        return this;
+    }
+
+    @Override
+    public IStates coupure() {
+        getGame().coupure();
+        switch (getGame().checkGameStatus()) {
+            case DRAW_CARD:
+                getGame().setDefaultStatus();
+                return new AwaitTopCardToBeDrawn(getGame());
+            case VICTORY:
+                return new AwaitGameFinish(getGame(), VICTORY);
+            case DEFEAT:
+                return new AwaitGameFinish(getGame(), DEFEAT);
+            case CONTINUE:
+                return this;
+        }
+        return this;
+    }
+
+    @Override
+    public IStates rallyTroopsOptions() {
+        if (getGame().rallyTroopsOptions()) {
+            return new AwaitOptionSelection(getGame());
+        }
+        return this;
+    }
+
 }

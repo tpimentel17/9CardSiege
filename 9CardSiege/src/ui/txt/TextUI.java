@@ -58,7 +58,7 @@ public class TextUI {
                 } catch (IOException ex) {
                     System.out.println("[EXCEPTION] Problem loading object from file!");
                 }
-                
+
                 break;
             case '3':
                 quit = true;
@@ -164,10 +164,13 @@ public class TextUI {
                 gameModel.boilingWaterAttack();
                 break;
             case '3':
+                gameModel.closeCombat();
                 break;
             case '4':
+                gameModel.coupure();
                 break;
             case '5':
+                gameModel.rallyTroopsOptions();
                 break;
             case '6':
                 break;
@@ -253,15 +256,16 @@ public class TextUI {
         if (((AwaitGameFinish) gameModel.getState()).getResult() == VICTORY) {
             System.out.println("\n-------------> PARABÉNS GANHOU! <-------------");
         } else {
-            System.out.println("\n-------------> NÃO FOI DESTA QUE VENCEU <-------------");
+            System.out.println("\n-------------> NÃO FOI DESTA QUE VENCEU... <-------------");
         }
 
         do {
 
             System.out.println();
-            System.out.println("Deseja começar um novo jogo?");
-            System.out.println("1 - Sim");
-            System.out.println("2 - Não");
+            System.out.println("Do you want to start a new game?");
+            System.out.println();
+            System.out.println("1 - Yes");
+            System.out.println("2 - No");
             System.out.println();
             System.out.print("> ");
 
@@ -286,6 +290,48 @@ public class TextUI {
 
     }
 
+    public void uiAwaitOptionSelection() {
+        Scanner sc = new Scanner(System.in);
+        String option;
+        char c;
+
+        System.out.println();
+        System.out.println();
+        System.out.println("**********************************************************");
+        System.out.println();
+        System.out.println("\n=== SELECT AN OPTION - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
+
+        do {
+
+            System.out.println();
+            System.out.println("You can spend 1 supplie to have a bigger chance of improving your people's Morale.");
+            System.out.println("Do you wish to do it?");
+            System.out.println();
+            System.out.println("1 - Yes");
+            System.out.println("2 - No");
+            System.out.println();
+            System.out.print("> ");
+
+            option = sc.next();
+
+            if (option.length() >= 1) {
+                c = option.charAt(0);
+            } else {
+                c = ' ';
+            }
+
+        } while (c < '1' || c > '2');
+
+        switch (c) {
+            case '1':
+                gameModel.rallyTroops(true);
+                break;
+            case '2':
+                gameModel.rallyTroops(false);
+                break;
+        }
+    }
+
     public void run() {
         while (!quit) {
             IStates state = gameModel.getState();
@@ -300,6 +346,8 @@ public class TextUI {
                 uiAwaitGameFinish();
             } else if (state instanceof AwaitTrackSelection) {
                 uiAwaitTrackSelection();
+            } else if (state instanceof AwaitOptionSelection) {
+                uiAwaitOptionSelection();
             }
         }
     }
@@ -315,7 +363,7 @@ public class TextUI {
         System.out.println();
         System.out.println("Soldiers Position:");
 
-        switch (gameModel.getGameData().getPlayerStats().getTunnel()) {
+        switch (gameModel.getGameData().getPlayerStats().getSoldiersLocation()) {
             case CASTLE:
                 System.out.println("Castle [x| : | ] EnemyLines");
                 break;
@@ -338,20 +386,10 @@ public class TextUI {
         int ramPosition = gameModel.getGameData().getEnemyTracks().getRamPosition();
         int towerPosition = gameModel.getGameData().getEnemyTracks().getTowerPosition();
 
-        int closeCombatUnits = 0;
-
-        if (laddersPosition == 0) {
-            closeCombatUnits++;
-        } else if (ramPosition == 0) {
-            closeCombatUnits++;
-        } else if (towerPosition == 0) {
-            closeCombatUnits++;
-        }
-
         System.out.println();
         System.out.println("****Enemy Tracks****");
         System.out.println();
-        System.out.println("Close combat units -> " + closeCombatUnits + "\t\tStrength: 4 (each)");
+        System.out.println("Close combat units -> " + gameModel.getGameData().getEnemyTracks().getNumberOfUnitsInCloseCombat() + "\t\tStrength: 4 (each)");
         System.out.println("Ladders distance -> " + laddersPosition + "\t\tStrength: 2");
         System.out.println("Battering Ram distance -> " + ramPosition + "\tStrength: 3");
         System.out.println("Siege Tower distance -> " + towerPosition + "\tStrength: 4");
