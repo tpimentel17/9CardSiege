@@ -148,10 +148,19 @@ public class TextUI {
                 gameModel.archersAttack();
                 break;
             case '2':
-                showStatusTracks();
+                gameModel.boilingWaterAttack();
                 break;
             case '3':
-                showEnemyTracks();
+                break;
+            case '4':
+                break;
+            case '5':
+                break;
+            case '6':
+                break;
+            case '7':
+                break;
+            case '8':
                 break;
             case '9':
                 quit = true;
@@ -197,32 +206,70 @@ public class TextUI {
                 if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
                     gameModel.attackSelectedTrack(ARCHERS, LADDERS);
                 } else {
-
+                    gameModel.attackSelectedTrack(BOILING_WATER, LADDERS);
                 }
                 break;
             case '2':
                 if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
                     gameModel.attackSelectedTrack(ARCHERS, BATTERING_RAM);
                 } else {
-
+                    gameModel.attackSelectedTrack(BOILING_WATER, BATTERING_RAM);
                 }
                 break;
             case '3':
                 if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
                     gameModel.attackSelectedTrack(ARCHERS, SIEGE_TOWER);
                 } else {
-                    
+                    gameModel.attackSelectedTrack(BOILING_WATER, SIEGE_TOWER);
                 }
                 break;
         }
     }
 
     public void uiAwaitGameFinish() {
+        Scanner sc = new Scanner(System.in);
+        String option;
+        char c;
+        
         System.out.println();
         System.out.println();
         System.out.println("**********************************************************");
         System.out.println();
-        System.out.println("\n=== GG NOOB ===\n");
+        System.out.println("\n=== O JOGO TERMINOU ===\n");
+        System.out.println();
+        if (((AwaitGameFinish) gameModel.getState()).getResult() == VICTORY) {
+            System.out.println("\n-------------> PARABÉNS GANHOU! <-------------");
+        } else {
+            System.out.println("\n-------------> NÃO FOI DESTA QUE VENCEU <-------------");
+        }
+        
+        do {
+
+            System.out.println();
+            System.out.println("Deseja começar um novo jogo?");
+            System.out.println("1 - Sim");
+            System.out.println("2 - Não");
+            System.out.println();
+            System.out.print("> ");
+
+            option = sc.next();
+
+            if (option.length() >= 1) {
+                c = option.charAt(0);
+            } else {
+                c = ' ';
+            }
+
+        } while (c < '1' || c > '2');
+
+        switch (c) {
+            case '1':
+                gameModel.restartGame();
+                break;
+            case '2':
+                quit = true;
+                return;
+        }
 
     }
 

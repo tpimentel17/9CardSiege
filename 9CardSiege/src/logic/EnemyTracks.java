@@ -17,7 +17,7 @@ public class EnemyTracks implements Serializable {
         numberOfTrebuchets = 3;
     }
 
-    //GETTERS
+    // <editor-fold desc="GETTERS">
     public int getLaddersPosition() {
         return laddersPosition;
     }
@@ -50,7 +50,24 @@ public class EnemyTracks implements Serializable {
         return num;
     }
 
-    //SETTERS
+    public int getNumberOfUnitsInCircleSpaces() {
+        int num = 0;
+
+        if (laddersPosition == 1) {
+            num++;
+        }
+        if (ramPosition == 1) {
+            num++;
+        }
+        if (towerPosition == 1) {
+            num++;
+        }
+
+        return num;
+    }
+    // </editor-fold>
+
+    // <editor-fold desc="SETTERS">
     public void setLaddersPosition(int laddersPosition) {
         this.laddersPosition = laddersPosition;
     }
@@ -66,8 +83,9 @@ public class EnemyTracks implements Serializable {
     public void setNumberOfTrebuchets(int numberOfTrebuchets) {
         this.numberOfTrebuchets = numberOfTrebuchets;
     }
+// </editor-fold>
 
-    //PRIVATE METHODS
+    // <editor-fold desc="PRIVATE METHODS">
     private int getSlowestPosition() {
         int pos = laddersPosition;
 
@@ -81,6 +99,10 @@ public class EnemyTracks implements Serializable {
         return pos;
     }
 
+    // </editor-fold>
+
+    
+    
     //***************************************************
     public void moveForward(String unit) {
         System.out.println("");

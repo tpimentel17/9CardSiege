@@ -42,4 +42,9 @@ public class StateAdapter implements IStates {
     public IStates boilingWaterAttack() {
         return this;
     }
+
+    @Override
+    public IStates restartGame() {
+        return this;
+    }
 }

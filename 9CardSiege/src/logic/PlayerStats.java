@@ -19,7 +19,7 @@ public class PlayerStats implements Serializable {
         numberOfRaidedSupplies = 0;
     }
 
-    //GETTERS
+    // <editor-fold desc="GETTERS">
     public int getWallStrength() {
         return wallStrength;
     }
@@ -39,7 +39,7 @@ public class PlayerStats implements Serializable {
     public int getNumberOfRaidedSupplies() {
         return numberOfRaidedSupplies;
     }
-    
+
     public int getNumberOfZeroStats() {
         int num = 0;
 
@@ -55,9 +55,9 @@ public class PlayerStats implements Serializable {
 
         return num;
     }
-    
+    // </editor-fold>
 
-    //SETTERS
+    // <editor-fold desc="SETTERS">
     public void setWallStrength(int wallStrength) {
         this.wallStrength = wallStrength;
     }
@@ -73,18 +73,27 @@ public class PlayerStats implements Serializable {
     public void setNumberOfRaidedSupplies(int numberOfRaidedSupplies) {
         this.numberOfRaidedSupplies = numberOfRaidedSupplies;
     }
-    
-    public void damageWall(int damage){
+    // </editor-fold>
+
+    // <editor-fold desc="ACTIONS">
+    public void damageWall(int damage) {
         System.out.println("The wall has suffered " + damage + " damage point(s).");
-        if(wallStrength - damage < 0)
+        if (wallStrength - damage < 0) {
             wallStrength = 0;
-        else
+        } else {
             wallStrength -= damage;
+        }
     }
-    
-    public void reduceMorale(){
+
+    public void reduceMorale() {
         System.out.println("You've lost 1 Morale point.");
         morale--;
     }
 
+    public void reduceSupplies(int amount) {
+        System.out.println("You've lost " + amount + " Supplies point(s).");
+        supplies -= amount;
+    }
+
+    // </editor-fold>
 }

@@ -40,11 +40,20 @@ public class GameModel implements Serializable {
         setState(getState().drawTopCard());
     }
     
+    
     public void archersAttack(){
         setState(getState().archersAttack());
     }
     
     public void attackSelectedTrack(String action, String selectedTrack){
         setState(getState().attackSelectedTrack(action, selectedTrack));
+    }
+    
+    public void boilingWaterAttack(){
+        setState(getState().boilingWaterAttack());
+    }
+    
+    public void restartGame(){
+        setState(getState().restartGame());
     }
 }

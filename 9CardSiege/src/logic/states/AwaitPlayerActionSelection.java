@@ -15,10 +15,15 @@ public class AwaitPlayerActionSelection extends StateAdapter {
         if (getGame().archersAttack()) {
             return new AwaitTrackSelection(getGame(), ARCHERS);
         }
-        
-        System.out.println("\n\n***************************************************************");
-        System.out.println("[INVALID ACTION] You don't have enough Action Points Available!");
-        System.out.println("***************************************************************");
         return this;
     }
+
+    @Override
+    public IStates boilingWaterAttack() {
+        if (getGame().boilingWaterAttack()) {
+            return new AwaitTrackSelection(getGame(), BOILING_WATER);
+        }
+        return this;
+    }
+
 }

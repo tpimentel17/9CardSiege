@@ -8,6 +8,7 @@ import logic.cards.*;
 
 public class GameData implements Serializable {
 
+    private int gameStatus;         
     private int currentDay;
     private int currentActionPoints;
     private PlayerStats playerStats;
@@ -18,6 +19,7 @@ public class GameData implements Serializable {
 
     private boolean gameFinish;
     private boolean gameWon;
+    private boolean boiledWaterWasUsed;
 
     public GameData() {
         playerStats = new PlayerStats();
@@ -28,8 +30,8 @@ public class GameData implements Serializable {
     }
 
     public boolean initialize() {
-        gameFinish = false;
-        gameWon = false;
+        gameStatus = CONTINUE;
+        boiledWaterWasUsed = false;
         currentDay = 1;
 
         deck.add(new Card1());
@@ -44,7 +46,7 @@ public class GameData implements Serializable {
         return true;
     }
 
-    //GETTERS
+    // <editor-fold desc="GETTERS">
     public int getCurrentDay() {
         return currentDay;
     }
@@ -73,15 +75,63 @@ public class GameData implements Serializable {
         return drawnCards;
     }
 
-    public boolean isGameFinish() {
-        return gameFinish;
+    // </editor-fold>
+    
+    // <editor-fold desc="SETTERS">
+    public void setDefaultStatus(){
+        gameStatus = CONTINUE;
+    }
+    
+    // </editor-fold>
+    
+    
+    // <editor-fold desc="PUBLIC METHODS">
+    
+    public int checkGameStatus(){
+        endOfTurnCheck();
+        endOfDayCheck();
+        
+        return gameStatus;
+    }
+    
+    //</editor-fold>
+    
+    // <editor-fold desc="PRIVATE METHODS">
+    private boolean endOfTurnLossCheck() {
+        if (enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerStats.getNumberOfZeroStats() > 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean endOfDayCheck() {
+        if(deck.isEmpty()){
+            playerStats.reduceSupplies(1);
+            if(playerStats.getSupplies() == 0){
+                gameStatus = DEFEAT;
+            }else if(currentDay == 3){
+                gameStatus = VICTORY;
+            }
+        }
+        return true;
     }
 
-    public boolean isGameWon() {
-        return gameWon;
+    private boolean endOfTurnCheck() {
+        if (currentActionPoints == 0) {
+            gameStatus = DRAW_CARD;
+            boiledWaterWasUsed = false;
+            if(endOfTurnLossCheck()){
+                gameStatus = DEFEAT;
+            }
+            return true;
+        }
+        return false;
     }
 
-    //STATE TRANSITION ACTIONS
+    // </editor-fold>
+    
+    // <editor-fold desc="STATE TRANSITION ACTIONS">
+
     public boolean drawTopCard() {
 
         //Remove carta do baralho e adiciona ao baralho de removidas        
@@ -160,21 +210,45 @@ public class GameData implements Serializable {
 
     public boolean archersAttack() {
         if (currentActionPoints == 0) {
+
+            System.out.println("\n\n***************************************************************");
+            System.out.println("[INVALID ACTION] You don't have enough Action Points Available!");
+            System.out.println("***************************************************************");
+
             return false;
         }
+        return true;
+    }
 
+    public boolean boilingWaterAttack() {
+        if (currentActionPoints == 0) {
+            System.out.println("\n\n***************************************************************");
+            System.out.println("[INVALID ACTION] You don't have enough Action Points Available!");
+            System.out.println("***************************************************************");
+            return false;
+        } else if (boiledWaterWasUsed == true) {
+            System.out.println("\n\n*********************************************************************");
+            System.out.println("[INVALID ACTION] Boiling Water Atack was already used once this turn!");
+            System.out.println("*********************************************************************");
+            return false;
+        } else if (enemyTracks.getNumberOfUnitsInCircleSpaces() == 0) {
+            System.out.println("\n\n***********************************************************");
+            System.out.println("[INVALID ACTION] There are no enemies in the circle spaces!");
+            System.out.println("***********************************************************");
+            return false;
+        }
         return true;
     }
 
     public boolean attackSelectedTrack(String action, String selectedTrack) {
-        currentActionPoints--;
-
+        
         //Archers Attack
         if (action.equals(ARCHERS)) {
             die.roll();
 
             switch (selectedTrack) {
                 case LADDERS:
+                    currentActionPoints--;
                     if (enemyTracks.getLaddersPosition() == 0) {
                         if (die.getValue() > 4) {
                             enemyTracks.moveBackwards(LADDERS);
@@ -190,7 +264,8 @@ public class GameData implements Serializable {
                     }
                     break;
                 case BATTERING_RAM:
-                    if (enemyTracks.getLaddersPosition() == 0) {
+                    currentActionPoints--;
+                    if (enemyTracks.getRamPosition() == 0) {
                         if (die.getValue() > 4) {
                             enemyTracks.moveBackwards(BATTERING_RAM);
                         } else {
@@ -205,6 +280,7 @@ public class GameData implements Serializable {
                     }
                     break;
                 case SIEGE_TOWER:
+                    currentActionPoints--;
                     if (die.getValue() > 4) {
                         enemyTracks.moveBackwards(SIEGE_TOWER);
                     } else {
@@ -212,11 +288,63 @@ public class GameData implements Serializable {
                     }
                     break;
             }
-        //Boiling Water Attack
+
+            //Boiling Water Attack
         } else {
-
+            switch (selectedTrack) {
+                case LADDERS:
+                    if (enemyTracks.getRamPosition() != 1) {
+                        System.out.println("\n\n**********************************************************");
+                        System.out.println("[INVALID ACTION] There are no Ladders in the circle space!");
+                        System.out.println("**********************************************************");
+                        return false;
+                    }
+                    currentActionPoints--;
+                    die.roll();
+                    if (die.getValue() + 1 > 2) {
+                        enemyTracks.moveBackwards(LADDERS);
+                    } else {
+                        System.out.println("The Boiling Water Attack wasn't effective!");
+                    }
+                    break;
+                case BATTERING_RAM:
+                    if (enemyTracks.getRamPosition() != 1) {
+                        System.out.println("\n\n*****************************************************************");
+                        System.out.println("[INVALID ACTION] There isn't a Battering Ram in the circle space!");
+                        System.out.println("*****************************************************************");
+                        return false;
+                    }
+                    
+                    currentActionPoints--;
+                    die.roll();
+                    if (die.getValue() + 1 > 3) {
+                        enemyTracks.moveBackwards(BATTERING_RAM);
+                    } else {
+                        System.out.println("The Boiling Water Attack wasn't effective!");
+                    }
+                    break;
+                case SIEGE_TOWER:
+                    if (enemyTracks.getTowerPosition() != 1) {
+                        System.out.println("\n\n***************************************************************");
+                        System.out.println("[INVALID ACTION] There isn't a Siege Tower in the circle space!");
+                        System.out.println("***************************************************************");
+                        return false;
+                    }
+                    
+                    currentActionPoints--;
+                    die.roll();
+                    if (die.getValue() + 1 > 4) {
+                        enemyTracks.moveBackwards(SIEGE_TOWER);
+                    } else {
+                        System.out.println("The Boiling Water Attack wasn't effective!");
+                    }
+                    break;
+            }
+            boiledWaterWasUsed = true;
         }
-
+        
         return true;
     }
+    // </editor-fold>
+
 }

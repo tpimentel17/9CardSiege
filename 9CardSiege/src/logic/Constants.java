@@ -18,4 +18,11 @@ public interface Constants {
     //ACTIONS
     public static final String ARCHERS = "Archers";
     public static final String BOILING_WATER = "BoilingWater";
+    
+    //GAME STATUS
+    public static final int DEFEAT = 0;
+    public static final int CONTINUE = 1;
+    public static final int VICTORY = 2;
+    public static final int DRAW_CARD = 4;
+
 }

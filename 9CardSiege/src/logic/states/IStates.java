@@ -7,7 +7,9 @@ public interface IStates extends Serializable {
     IStates drawTopCard();      //AwaitTopCardToBeDrawn -> AwaitPlayerActionSelection
                                 //AwaitTopCardToBeDrawn -> AwaitGameFinish
     IStates archersAttack();    //AwaitPlayerActionSelection -> AwaitTrackSelection
-    IStates attackSelectedTrack(String action, String selectedTrack);     //AwaitTrackSelection -> AwaitPlayerActionSelection
+    IStates attackSelectedTrack(String action, String selectedTrack);   //AwaitTrackSelection -> AwaitPlayerActionSelection
+                                                                        //AwaitTrackSelection -> AwaitTopCardToBeDrawn
+                                                                        //AwaitTrackSelection -> AwaitGameFinish
     IStates boilingWaterAttack();   //AwaitPlayerActionSelection -> AwaitTrackSelection
-    
+    IStates restartGame();          //AwaitGameFinish -> AwaitGameBegining
 }
