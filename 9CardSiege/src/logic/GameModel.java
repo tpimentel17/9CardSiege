@@ -35,43 +35,45 @@ public class GameModel implements Serializable {
     public void startGame() {
         setState(getState().startGame());
     }
-    
-    public void drawTopCard(){
+
+    public void drawTopCard() {
         setState(getState().drawTopCard());
     }
-    
-    
-    public void archersAttack(){
+
+    public void archersAttack() {
         setState(getState().archersAttack());
     }
-    
-    public void attackSelectedTrack(String action, String selectedTrack){
+
+    public void attackSelectedTrack(String action, String selectedTrack) {
         setState(getState().attackSelectedTrack(action, selectedTrack));
     }
-    
-    public void boilingWaterAttack(){
+
+    public void boilingWaterAttack() {
         setState(getState().boilingWaterAttack());
     }
-    
-    public void restartGame(){
+
+    public void restartGame() {
         setState(getState().restartGame());
     }
-    
-    public void closeCombat(){
+
+    public void closeCombat() {
         setState(getState().closeCombat());
     }
-    
-    public void coupure(){
+
+    public void coupure() {
         setState(getState().coupure());
     }
-    
-    public void rallyTroopsOptions(){
+
+    public void rallyTroopsOptions() {
         setState(getState().rallyTroopsOptions());
     }
-    
-    public void rallyTroops(boolean drm){
+
+    public void rallyTroops(boolean drm) {
         setState(getState().rallyTroops(drm));
     }
-    
-    
+
+    public void tunnelMovement() {
+        setState(getState().tunnelMovement());
+    }
+
 }

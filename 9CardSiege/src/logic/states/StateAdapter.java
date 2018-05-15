@@ -68,4 +68,9 @@ public class StateAdapter implements IStates {
         return this;
     }
 
+    @Override
+    public IStates tunnelMovement() {
+        return this;
+    }
+
 }

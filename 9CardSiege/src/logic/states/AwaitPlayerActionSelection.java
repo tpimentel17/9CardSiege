@@ -60,4 +60,11 @@ public class AwaitPlayerActionSelection extends StateAdapter {
         return this;
     }
 
+    @Override
+    public IStates tunnelMovement() {
+        return new AwaitMovementTypeSelection(getGame());
+    }
+    
+    
+
 }

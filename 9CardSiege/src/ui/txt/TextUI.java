@@ -174,6 +174,7 @@ public class TextUI {
                 gameModel.rallyTroopsOptions();
                 break;
             case '6':
+                gameModel.tunnelMovement();
                 break;
             case '7':
                 break;
@@ -349,7 +350,7 @@ public class TextUI {
             System.out.println();
             System.out.println("1 - Move Into the Tunnel (1 Action Point)");
             System.out.println("2 - Free Movement");
-            System.out.println("3 - Fast Movement (costs 1 Action Point (2 if outside the tunnel))");
+            System.out.println("3 - Fast Movement (1 Action Point / 2 If outside the tunnel))");
             System.out.println("4 - Quit");
             System.out.println();
             System.out.print("> ");
