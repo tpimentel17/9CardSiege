@@ -20,4 +20,5 @@ public interface IStates extends Serializable {
     IStates rallyTroops(boolean drm);   //AwaitOptionSelection -> AwaitPlayerActionSelection
                                         //AwaitOptionSelection -> AwaitTopCardToBeDrawn
                                         //AwaitOptionSelection -> AwaitGameFinish
+    
 }

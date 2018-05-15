@@ -19,7 +19,8 @@ public class TextUI {
         this.gameModel = gameModel;
     }
 
-    public void uiAwaitBeginning() {
+    // <editor-fold desc="TEXT UI'S">
+    private void uiAwaitBeginning() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
@@ -66,7 +67,7 @@ public class TextUI {
         }
     }
 
-    public void uiAwaitTopCardToBeDrawn() {
+    private void uiAwaitTopCardToBeDrawn() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
@@ -118,7 +119,7 @@ public class TextUI {
         }
     }
 
-    public void uiAwaitPlayerActionSelection() {
+    private void uiAwaitPlayerActionSelection() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
@@ -184,7 +185,7 @@ public class TextUI {
         }
     }
 
-    public void uiAwaitTrackSelection() {
+    private void uiAwaitTrackSelection() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
@@ -242,7 +243,7 @@ public class TextUI {
         }
     }
 
-    public void uiAwaitGameFinish() {
+    private void uiAwaitGameFinish() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
@@ -290,7 +291,7 @@ public class TextUI {
 
     }
 
-    public void uiAwaitOptionSelection() {
+    private void uiAwaitOptionSelection() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
@@ -332,6 +333,53 @@ public class TextUI {
         }
     }
 
+    private void uiAwaitMovementTypeSelection() {
+        Scanner sc = new Scanner(System.in);
+        String option;
+        char c;
+
+        System.out.println();
+        System.out.println();
+        System.out.println("**********************************************************");
+        System.out.println();
+        System.out.println("\n=== SELECT THE TYPE OF MOVEMENT TO PERFMORM - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
+
+        do {
+
+            System.out.println();
+            System.out.println("1 - Move Into the Tunnel (1 Action Point)");
+            System.out.println("2 - Free Movement");
+            System.out.println("3 - Fast Movement (costs 1 Action Point (2 if outside the tunnel))");
+            System.out.println("4 - Quit");
+            System.out.println();
+            System.out.print("> ");
+
+            option = sc.next();
+
+            if (option.length() >= 1) {
+                c = option.charAt(0);
+            } else {
+                c = ' ';
+            }
+
+        } while (c < '1' || c > '3');
+
+        switch (c) {
+            case '1':
+
+                break;
+            case '2':
+                break;
+            case '3':
+                break;
+            case '4':
+                quit = true;
+                return;
+
+        }
+    }
+
+    //</editor-fold>
     public void run() {
         while (!quit) {
             IStates state = gameModel.getState();
@@ -348,6 +396,8 @@ public class TextUI {
                 uiAwaitTrackSelection();
             } else if (state instanceof AwaitOptionSelection) {
                 uiAwaitOptionSelection();
+            } else if (state instanceof AwaitMovementTypeSelection) {
+                uiAwaitMovementTypeSelection();
             }
         }
     }

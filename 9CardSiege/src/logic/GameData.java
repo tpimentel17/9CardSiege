@@ -89,7 +89,8 @@ public class GameData implements Serializable {
         return gameStatus;
     }
 
-    //</editor-fold>
+    //</editor-fold
+    
     // <editor-fold desc="PRIVATE METHODS">
     private boolean endOfTurnLossCheck() {
         if (enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerStats.getNumberOfZeroStats() > 0) {

@@ -72,4 +72,6 @@ public class GameModel implements Serializable {
     public void rallyTroops(boolean drm){
         setState(getState().rallyTroops(drm));
     }
+    
+    
 }
