@@ -3,8 +3,6 @@ package ui.txt;
 import files.FileUtility;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static logic.Constants.*;
 import logic.GameModel;
 import logic.states.*;
@@ -367,7 +365,7 @@ public class TextUI {
 
         switch (c) {
             case '1':
-
+                
                 break;
             case '2':
                 break;

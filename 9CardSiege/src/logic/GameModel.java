@@ -14,24 +14,27 @@ public class GameModel implements Serializable {
         state = new AwaitBegining(gameData);
     }
 
+    // <editor-fold desc="GETTERS">
     public GameData getGameData() {
         return gameData;
-    }
-
-    public void setGameData(GameData gameData) {
-        this.gameData = gameData;
     }
 
     public IStates getState() {
         return state;
     }
+    // </editor-fold>
+
+    // <editor-fold desc="SETTERS">
+    public void setGameData(GameData gameData) {
+        this.gameData = gameData;
+    }
 
     public void setState(IStates state) {
         this.state = state;
     }
-
-    //------------------------ Metodos de acesso aos dados/estado do jogo ------------------------
-    //------------------------ Metodos de interface de texto ------------------------
+    // </editor-fold>
+    
+    // <editor-fold desc="METODOS DE ACESSO AOS DADOS/ESTADO DO JOGO">
     public void startGame() {
         setState(getState().startGame());
     }
@@ -75,5 +78,5 @@ public class GameModel implements Serializable {
     public void tunnelMovement() {
         setState(getState().tunnelMovement());
     }
-
+    // </editor-fold>
 }

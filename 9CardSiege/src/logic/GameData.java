@@ -74,8 +74,6 @@ public class GameData implements Serializable {
         return drawnCards;
     }
 
-    // </editor-fold>
-    // <editor-fold desc="SETTERS">
     public void setDefaultStatus() {
         gameStatus = CONTINUE;
     }
@@ -89,8 +87,7 @@ public class GameData implements Serializable {
         return gameStatus;
     }
 
-    //</editor-fold
-    
+    //</editor-fold>
     // <editor-fold desc="PRIVATE METHODS">
     private boolean endOfTurnLossCheck() {
         if (enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerStats.getNumberOfZeroStats() > 0) {
@@ -444,7 +441,6 @@ public class GameData implements Serializable {
         }
         return true;
     }
-    // </editor-fold>
 
     public void coupure() {
         currentActionPoints--;
@@ -477,6 +473,16 @@ public class GameData implements Serializable {
                 playerStats.increaseMorale();
             }
         }
-
     }
+    
+    public boolean tunnelMovement(){
+        if (currentActionPoints == 0) {
+            System.out.println("\n\n***************************************************************");
+            System.out.println("[INVALID ACTION] You don't have enough Action Points Available!");
+            System.out.println("***************************************************************");
+            return false;
+        }
+        return true;
+    }
+    // </editor-fold>
 }

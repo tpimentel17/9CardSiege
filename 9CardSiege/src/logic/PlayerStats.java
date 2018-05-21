@@ -9,6 +9,7 @@ public class PlayerStats implements Serializable {
     private int morale;
     private int supplies;
     private int tunnel;
+    private int lastTunnelPosition;
     private int numberOfRaidedSupplies;
 
     public PlayerStats() {
@@ -16,6 +17,7 @@ public class PlayerStats implements Serializable {
         morale = 4;
         supplies = 4;
         tunnel = CASTLE;
+        lastTunnelPosition = -1;
         numberOfRaidedSupplies = 0;
     }
 
