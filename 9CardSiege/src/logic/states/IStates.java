@@ -21,5 +21,8 @@ public interface IStates extends Serializable {
                                         //AwaitOptionSelection -> AwaitTopCardToBeDrawn
                                         //AwaitOptionSelection -> AwaitGameFinish
     IStates tunnelMovement();   //AwaitPlayerActionSelection -> AwaitMovementTypeSelection
+    IStates moveSoldiers(int movementType);     //AwaitMovementTypeSelection -> AwaitPlayerActionSelection
+                                                //AwaitMovementTypeSelection -> AwaitTopCardToBeDra//AwaitMovementTypeSelection -> AwaitPlayerActionSelectionwn
+                                                //AwaitMovementTypeSelection -> AwaitGameFinish
     
 }

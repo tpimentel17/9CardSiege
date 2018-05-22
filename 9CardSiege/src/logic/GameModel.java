@@ -78,5 +78,9 @@ public class GameModel implements Serializable {
     public void tunnelMovement() {
         setState(getState().tunnelMovement());
     }
+    
+    public void moveSoldiers(int movementType){
+        setState(getState().moveSoldiers(movementType));
+    }
     // </editor-fold>
 }

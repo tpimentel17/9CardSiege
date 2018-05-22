@@ -73,4 +73,9 @@ public class StateAdapter implements IStates {
         return this;
     }
 
+    @Override
+    public IStates moveSoldiers(int movementType) {
+        return this;
+    }
+
 }

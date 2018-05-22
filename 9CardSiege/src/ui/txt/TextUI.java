@@ -365,11 +365,13 @@ public class TextUI {
 
         switch (c) {
             case '1':
-                
+                gameModel.moveSoldiers(MOVE_INTO_TUNNEL);
                 break;
             case '2':
+                gameModel.moveSoldiers(FREE_MOVEMENT);
                 break;
             case '3':
+                gameModel.moveSoldiers(FAST_MOVEMENT);
                 break;
             case '4':
                 quit = true;

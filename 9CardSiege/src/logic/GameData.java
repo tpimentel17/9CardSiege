@@ -73,13 +73,13 @@ public class GameData implements Serializable {
     public ArrayList<Card> getDrawnCards() {
         return drawnCards;
     }
+    // </editor-fold>
 
+    // <editor-fold desc="PUBLIC METHODS">
     public void setDefaultStatus() {
         gameStatus = CONTINUE;
     }
 
-    // </editor-fold>
-    // <editor-fold desc="PUBLIC METHODS">
     public int checkGameStatus() {
         endOfTurnCheck();
         endOfDayCheck();
@@ -474,8 +474,8 @@ public class GameData implements Serializable {
             }
         }
     }
-    
-    public boolean tunnelMovement(){
+
+    public boolean tunnelMovement() {
         if (currentActionPoints == 0) {
             System.out.println("\n\n***************************************************************");
             System.out.println("[INVALID ACTION] You don't have enough Action Points Available!");
@@ -483,6 +483,21 @@ public class GameData implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    public boolean moveSoldiers(int movementType){
+        switch(movementType){
+            case MOVE_INTO_TUNNEL:
+                
+                break;
+            case FREE_MOVEMENT:
+                
+                break;
+            case FAST_MOVEMENT:
+                
+                break;
+        }
+        return false;
     }
     // </editor-fold>
 }
