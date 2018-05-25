@@ -94,8 +94,8 @@ public class PlayerStats implements Serializable {
         }
         morale--;
     }
-    
-    public void increaseMorale(){
+
+    public void increaseMorale() {
         System.out.println("You've gained 1 Morale point.");
         if (morale == 4) {
             return;
@@ -150,6 +150,24 @@ public class PlayerStats implements Serializable {
             return;
         }
         wallStrength++;
+    }
+
+    public boolean moveIntoTunnel() {
+
+        switch (tunnel) {
+            case CASTLE:
+                moveSoldiers(TUNNEL_CASTLE);
+                lastTunnelPosition = CASTLE;
+                
+                return true;
+            case ENEMY_LINES:
+                moveSoldiers(TUNNEL_ENEMY);
+                lastTunnelPosition = ENEMY_LINES;
+                return true;
+            default:
+                System.out.println("Soldiers are inside the tunnel already!");
+               return false; 
+        }
     }
     // </editor-fold>
 }

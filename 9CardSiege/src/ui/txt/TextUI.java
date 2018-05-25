@@ -219,25 +219,13 @@ public class TextUI {
 
         switch (c) {
             case '1':
-                if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
-                    gameModel.attackSelectedTrack(ARCHERS, LADDERS);
-                } else {
-                    gameModel.attackSelectedTrack(BOILING_WATER, LADDERS);
-                }
+                gameModel.attackSelectedTrack(LADDERS);
                 break;
             case '2':
-                if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
-                    gameModel.attackSelectedTrack(ARCHERS, BATTERING_RAM);
-                } else {
-                    gameModel.attackSelectedTrack(BOILING_WATER, BATTERING_RAM);
-                }
+                gameModel.attackSelectedTrack(BATTERING_RAM);
                 break;
             case '3':
-                if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
-                    gameModel.attackSelectedTrack(ARCHERS, SIEGE_TOWER);
-                } else {
-                    gameModel.attackSelectedTrack(BOILING_WATER, SIEGE_TOWER);
-                }
+                gameModel.attackSelectedTrack(SIEGE_TOWER);
                 break;
         }
     }

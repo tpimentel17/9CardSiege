@@ -1,7 +1,9 @@
 package logic;
 
 import java.io.Serializable;
+import static logic.Constants.*;
 import logic.states.AwaitBegining;
+import logic.states.AwaitTrackSelection;
 import logic.states.IStates;
 
 public class GameModel implements Serializable {
@@ -47,7 +49,9 @@ public class GameModel implements Serializable {
         setState(getState().archersAttack());
     }
 
-    public void attackSelectedTrack(String action, String selectedTrack) {
+    public void attackSelectedTrack(String selectedTrack) {
+        String action = ((AwaitTrackSelection)getState()).getAction();
+        
         setState(getState().attackSelectedTrack(action, selectedTrack));
     }
 

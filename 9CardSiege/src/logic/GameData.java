@@ -7,7 +7,6 @@ import static logic.Constants.*;
 import logic.cards.*;
 
 public class GameData implements Serializable {
-
     private int gameStatus;
     private int currentDay;
     private int currentActionPoints;
@@ -19,20 +18,15 @@ public class GameData implements Serializable {
 
     private boolean gameFinish;
     private boolean boiledWaterWasUsed;
-
+    private boolean freeMovementWasUsed;
+    
     public GameData() {
         playerStats = new PlayerStats();
         enemyTracks = new EnemyTracks();
         die = new Die();
         deck = new ArrayList<>(7);
         drawnCards = new ArrayList<>(7);
-    }
-
-    public boolean initialize() {
-        gameStatus = CONTINUE;
-        boiledWaterWasUsed = false;
-        currentDay = 1;
-
+        
         deck.add(new Card1());
         deck.add(new Card2());
         deck.add(new Card3());
@@ -40,6 +34,14 @@ public class GameData implements Serializable {
         deck.add(new Card5());
         deck.add(new Card6());
         deck.add(new Card7());
+    }
+
+    public boolean initialize() {
+        gameStatus = CONTINUE;
+        boiledWaterWasUsed = false;
+        freeMovementWasUsed = false;
+        currentDay = 1;
+
         Collections.shuffle(deck);
 
         return true;
@@ -139,8 +141,8 @@ public class GameData implements Serializable {
         }
         return false;
     }
-
     // </editor-fold>
+
     // <editor-fold desc="STATE TRANSITION ACTIONS">
     public boolean drawTopCard() {
 
@@ -484,17 +486,22 @@ public class GameData implements Serializable {
         }
         return true;
     }
-    
-    public boolean moveSoldiers(int movementType){
-        switch(movementType){
+
+    public boolean moveSoldiers(int movementType) {
+        boolean result;
+        switch (movementType) {
+
             case MOVE_INTO_TUNNEL:
-                
-                break;
+                result = playerStats.moveIntoTunnel();
+                if (result) {
+                    currentActionPoints--;
+                }
+                return result;
             case FREE_MOVEMENT:
                 
                 break;
             case FAST_MOVEMENT:
-                
+
                 break;
         }
         return false;
