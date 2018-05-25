@@ -24,7 +24,8 @@ public class Card3 extends Card implements Serializable {
     }
 
     private void addDayTwo() {
-        days.add(new Day(2, 2));
+        enemyOrders = new ArrayList<>();
+        days.add(new Day(2, 2, enemyOrders));
     }
 
     private void addDayThree() {
