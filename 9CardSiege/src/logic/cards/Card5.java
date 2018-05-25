@@ -19,8 +19,8 @@ public class Card5 extends Card implements Serializable {
 
     private void addDayOne() {
         enemyOrders = new ArrayList<>();
-        enemyOrders.add(LADDERS);
-        days.add(new Day(1, 2, enemyOrders));
+        enemyOrders.add(BATTERING_RAM);
+        days.add(new Day(1, 3, enemyOrders));
     }
 
     private void addDayTwo() {
@@ -32,7 +32,7 @@ public class Card5 extends Card implements Serializable {
 
     private void addDayThree() {
         enemyOrders = new ArrayList<>();
-        enemyOrders.add(BATTERING_RAM);
-        days.add(new Day(3, 3, enemyOrders));
+        enemyOrders.add(LADDERS);
+        days.add(new Day(3, 2, enemyOrders));
     }
 }

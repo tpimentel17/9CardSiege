@@ -14,7 +14,7 @@ public class Card1 extends Card implements Serializable {
     }
 
     private void addDayOne() {
-        days.add(new Day(1, 1));
+        days.add(new Day(1, 3));
     }
 
     private void addDayTwo() {
@@ -22,7 +22,7 @@ public class Card1 extends Card implements Serializable {
     }
 
     private void addDayThree() {
-        days.add(new Day(3, 3));
+        days.add(new Day(3, 1));
     }
 
 }
