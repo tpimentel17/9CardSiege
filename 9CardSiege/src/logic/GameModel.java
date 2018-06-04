@@ -1,6 +1,7 @@
 package logic;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import static logic.Constants.*;
 import logic.states.AwaitBegining;
 import logic.states.AwaitTrackSelection;
@@ -37,6 +38,14 @@ public class GameModel implements Serializable {
     // </editor-fold>
     
     // <editor-fold desc="METODOS DE ACESSO AOS DADOS/ESTADO DO JOGO">
+    public ArrayList<String> getMessageLog(){
+        return gameData.getMessageLog();
+    }
+    
+    public void clearMessageLog(){
+        gameData.clearMessageLog();
+    }
+    
     public void startGame() {
         setState(getState().startGame());
     }

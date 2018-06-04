@@ -5,12 +5,14 @@ import static logic.Constants.*;
 
 public class EnemyTracks implements Serializable {
 
+    private GameData gameData;
     private int laddersPosition;        //Strengtth = 2
     private int ramPosition;            //Strengtth = 3
     private int towerPosition;          //Strengtth = 4
     private int numberOfTrebuchets;
 
-    public EnemyTracks() {
+    public EnemyTracks(GameData gameData) {
+        this.gameData = gameData;
         laddersPosition = 4;
         ramPosition = 4;
         towerPosition = 4;
@@ -100,9 +102,6 @@ public class EnemyTracks implements Serializable {
     }
 
     // </editor-fold>
-
-    
-    
     //***************************************************
     public void moveForward(String unit) {
         System.out.println("");
@@ -111,7 +110,8 @@ public class EnemyTracks implements Serializable {
                 if (laddersPosition == 0) {
                     break;
                 }
-                System.out.println("Ladders have moved forward 1 unit.");
+
+                gameData.addMessageLog("Ladders have moved forward 1 unit.");
                 laddersPosition--;
                 break;
 
@@ -119,7 +119,7 @@ public class EnemyTracks implements Serializable {
                 if (ramPosition == 0) {
                     break;
                 }
-                System.out.println("Battering Ram has moved forward 1 unit.");
+                gameData.addMessageLog("Battering Ram has moved forward 1 unit.");
                 ramPosition--;
                 break;
 
@@ -127,7 +127,7 @@ public class EnemyTracks implements Serializable {
                 if (towerPosition == 0) {
                     break;
                 }
-                System.out.println("Siege Tower has moved forward 1 unit.");
+                gameData.addMessageLog("Siege Tower has moved forward 1 unit.");
                 towerPosition--;
                 break;
 
@@ -136,21 +136,21 @@ public class EnemyTracks implements Serializable {
                     if (laddersPosition == 0) {
                         break;
                     }
-                    System.out.println("Ladders have moved forward 1 unit.");
+                    gameData.addMessageLog("Ladders have moved forward 1 unit.");
                     laddersPosition--;
                 }
                 if (ramPosition == getSlowestPosition()) {
                     if (ramPosition == 0) {
                         break;
                     }
-                    System.out.println("Battering Ram has moved forward 1 unit.");
+                    gameData.addMessageLog("Battering Ram has moved forward 1 unit.");
                     ramPosition--;
                 }
                 if (towerPosition == getSlowestPosition()) {
                     if (towerPosition == 0) {
                         break;
                     }
-                    System.out.println("Siege Tower has moved forward 1 unit.");
+                    gameData.addMessageLog("Siege Tower has moved forward 1 unit.");
                     towerPosition--;
                 }
                 break;
@@ -164,21 +164,21 @@ public class EnemyTracks implements Serializable {
                 if (laddersPosition == 4) {
                     break;
                 }
-                System.out.println("Ladders have moved backwards 1 unit.");
+                gameData.addMessageLog("Ladders have moved backwards 1 unit.");
                 laddersPosition++;
                 break;
             case BATTERING_RAM:
                 if (ramPosition == 4) {
                     break;
                 }
-                System.out.println("Battering Ram has moved backwards 1 unit.");
+                gameData.addMessageLog("Battering Ram has moved backwards 1 unit.");
                 ramPosition++;
                 break;
             case SIEGE_TOWER:
                 if (towerPosition == 4) {
                     break;
                 }
-                System.out.println("Siege Tower has moved backwards 1 unit.");
+                gameData.addMessageLog("Siege Tower has moved backwards 1 unit.");
                 towerPosition++;
                 break;
         }

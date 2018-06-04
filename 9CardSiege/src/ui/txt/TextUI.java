@@ -371,6 +371,17 @@ public class TextUI {
     //</editor-fold>
     public void run() {
         while (!quit) {
+            
+            //Apresenta mensagens do log
+            if(!gameModel.getMessageLog().isEmpty()){
+                System.out.println();
+                
+                for(String msg:gameModel.getMessageLog())
+                    System.out.println(msg);
+                
+                gameModel.clearMessageLog();
+            }
+            
             IStates state = gameModel.getState();
 
             if (state instanceof AwaitBegining) {
