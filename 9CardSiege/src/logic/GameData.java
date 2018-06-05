@@ -26,7 +26,7 @@ public class GameData implements Serializable {
 
     public GameData() {
         messageLog = new ArrayList<>();
-        
+
         playerStats = new PlayerStats(this);
         enemyTracks = new EnemyTracks(this);
         die = new Die(this);
@@ -84,18 +84,18 @@ public class GameData implements Serializable {
     // </editor-fold>
 
     // <editor-fold desc="PUBLIC METHODS">
-    public void clearMessageLog(){
+    public void clearMessageLog() {
         messageLog.clear();
     }
-    
-    public void addMessageLog(String msg){
+
+    public void addMessageLog(String msg) {
         messageLog.add(msg);
     }
-    
-    public ArrayList<String> getMessageLog(){
+
+    public ArrayList<String> getMessageLog() {
         return messageLog;
     }
-    
+
     public void setDefaultStatus() {
         gameStatus = CONTINUE;
     }
@@ -108,7 +108,6 @@ public class GameData implements Serializable {
     }
 
     //</editor-fold>
-    
     // <editor-fold desc="PRIVATE METHODS">
     private boolean endOfTurnLossCheck() {
         if (enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerStats.getNumberOfZeroStats() > 0) {
@@ -153,6 +152,7 @@ public class GameData implements Serializable {
         if (currentActionPoints == 0) {
             gameStatus = DRAW_CARD;
             boiledWaterWasUsed = false;
+            freeMovementWasUsed = false;
             if (endOfTurnLossCheck()) {
                 gameStatus = DEFEAT;
             }
@@ -524,14 +524,24 @@ public class GameData implements Serializable {
                 result = playerStats.moveIntoTunnel();
                 if (result) {
                     currentActionPoints--;
+                    freeMovementWasUsed = true;
                 }
                 return result;
             case FREE_MOVEMENT:
-
-                break;
+                if (!freeMovementWasUsed) {
+                    result = playerStats.freeMovement();
+                    if (result) {
+                        freeMovementWasUsed = true;
+                    }
+                    return result;
+                }
+                addMessageLog("You can't perform a 'Free Movement', because either a 'Free Movement' or a 'Move Into the Tunnel' "
+                        + "were already performed this turn!");
+                return false;
             case FAST_MOVEMENT:
-
-                break;
+                playerStats.fastMovement();
+                currentActionPoints--;
+                return true;
         }
         return false;
     }

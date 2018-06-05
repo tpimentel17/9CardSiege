@@ -1,6 +1,7 @@
 package logic;
 
 import java.io.Serializable;
+import javax.sound.midi.ShortMessage;
 import static logic.Constants.*;
 
 public class PlayerStats implements Serializable {
@@ -9,7 +10,7 @@ public class PlayerStats implements Serializable {
     private int wallStrength;
     private int morale;
     private int supplies;
-    private int tunnel;
+    private int tunnelPosition;
     private int lastTunnelPosition;
     private int numberOfRaidedSupplies;
 
@@ -18,7 +19,7 @@ public class PlayerStats implements Serializable {
         wallStrength = 4;
         morale = 4;
         supplies = 4;
-        tunnel = CASTLE;
+        tunnelPosition = CASTLE;
         lastTunnelPosition = -1;
         numberOfRaidedSupplies = 0;
     }
@@ -57,7 +58,7 @@ public class PlayerStats implements Serializable {
     }
 
     public int getSoldiersLocation() {
-        return tunnel;
+        return tunnelPosition;
     }
     // </editor-fold>
 
@@ -71,7 +72,7 @@ public class PlayerStats implements Serializable {
     }
 
     public void setTunnel(int tunnel) {
-        this.tunnel = tunnel;
+        this.tunnelPosition = tunnel;
     }
 
     public void setNumberOfRaidedSupplies(int numberOfRaidedSupplies) {
@@ -129,7 +130,7 @@ public class PlayerStats implements Serializable {
     }
 
     public void moveSoldiers(int position) {
-        tunnel = position;
+        tunnelPosition = position;
         switch (position) {
             case CASTLE:
                 gameData.addMessageLog("Soldiers moved back to the castle!");
@@ -156,7 +157,7 @@ public class PlayerStats implements Serializable {
 
     public boolean moveIntoTunnel() {
 
-        switch (tunnel) {
+        switch (tunnelPosition) {
             case CASTLE:
                 moveSoldiers(TUNNEL_CASTLE);
                 lastTunnelPosition = CASTLE;
@@ -167,8 +168,47 @@ public class PlayerStats implements Serializable {
                 lastTunnelPosition = ENEMY_LINES;
                 return true;
             default:
-                gameData.addMessageLog("Soldiers are inside the tunnel already!");
+                gameData.addMessageLog("Soldiers are alreay inside the tunnel!");
                 return false;
+        }
+    }
+
+    public boolean freeMovement() {
+
+        if (tunnelPosition == CASTLE || tunnelPosition == ENEMY_LINES) {
+            gameData.addMessageLog("You can't perform a Free Movement before entering the tunnel!");
+            return false;
+        } else {
+            if (tunnelPosition > lastTunnelPosition) {
+                lastTunnelPosition = tunnelPosition;
+                moveSoldiers(++tunnelPosition);
+            } else {
+                lastTunnelPosition = tunnelPosition;
+                moveSoldiers(--tunnelPosition);
+            }
+            return true;
+        }
+    }
+
+    public void fastMovement() {
+        switch (tunnelPosition) {
+            case CASTLE:
+                lastTunnelPosition = CASTLE;
+                moveSoldiers(TUNNEL_CASTLE);
+                break;
+            case ENEMY_LINES:
+                lastTunnelPosition = ENEMY_LINES;
+                moveSoldiers(TUNNEL_ENEMY);
+                break;
+            default:
+                if (tunnelPosition > lastTunnelPosition) {
+                    lastTunnelPosition = TUNNEL_ENEMY;
+                    moveSoldiers(ENEMY_LINES);
+                } else {
+                    lastTunnelPosition = TUNNEL_CASTLE;
+                    moveSoldiers(CASTLE);
+                }
+                break;
         }
     }
     // </editor-fold>

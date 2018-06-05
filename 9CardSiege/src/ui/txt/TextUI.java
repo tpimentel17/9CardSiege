@@ -132,6 +132,7 @@ public class TextUI {
             System.out.println();
             System.out.println("Available Action Points: " + gameModel.getGameData().getCurrentActionPoints());
             System.out.println();
+            System.out.println("A - Aditional Action Points");
             System.out.println("1 - Archers Attack");
             System.out.println("2 - Boiling Water Attack");
             System.out.println("3 - Close Combat Attack");
@@ -148,14 +149,18 @@ public class TextUI {
             option = sc.next();
 
             if (option.length() >= 1) {
+                option = option.toUpperCase();
                 c = option.charAt(0);
             } else {
                 c = ' ';
             }
 
-        } while (c < '1' || c > '9');
+        } while (c < '1' || c > '9' && c != 'A' );
 
         switch (c) {
+            case 'A':
+                System.out.println("\nAdditional Action Points");
+                break;
             case '1':
                 gameModel.archersAttack();
                 break;
@@ -336,7 +341,7 @@ public class TextUI {
             System.out.println();
             System.out.println("1 - Move Into the Tunnel (1 Action Point)");
             System.out.println("2 - Free Movement");
-            System.out.println("3 - Fast Movement (1 Action Point / 2 If outside the tunnel))");
+            System.out.println("3 - Fast Movement (1 Action Point))");
             System.out.println("4 - Quit");
             System.out.println();
             System.out.print("> ");
@@ -349,7 +354,7 @@ public class TextUI {
                 c = ' ';
             }
 
-        } while (c < '1' || c > '3');
+        } while (c < '1' || c > '4');
 
         switch (c) {
             case '1':
