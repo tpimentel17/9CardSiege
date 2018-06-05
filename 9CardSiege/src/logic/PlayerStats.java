@@ -133,6 +133,8 @@ public class PlayerStats implements Serializable {
         tunnelPosition = position;
         switch (position) {
             case CASTLE:
+                addSupplies(numberOfRaidedSupplies);
+                clearRaidedSupplies();
                 gameData.addMessageLog("Soldiers moved back to the castle!");
                 break;
             case TUNNEL_CASTLE:
@@ -182,6 +184,7 @@ public class PlayerStats implements Serializable {
             if (tunnelPosition > lastTunnelPosition) {
                 lastTunnelPosition = tunnelPosition;
                 moveSoldiers(++tunnelPosition);
+
             } else {
                 lastTunnelPosition = tunnelPosition;
                 moveSoldiers(--tunnelPosition);
