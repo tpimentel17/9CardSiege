@@ -3,7 +3,6 @@ package logic;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import static logic.Constants.*;
 import logic.cards.*;
 
@@ -134,9 +133,7 @@ public class GameData implements Serializable {
                 playerStats.clearRaidedSupplies();
                 playerStats.moveSoldiers(CASTLE);
             } else {
-                playerStats.moveSoldiers(CASTLE);
-                playerStats.clearRaidedSupplies();
-                playerStats.reduceMorale();
+                captureSoldiersProcedure();
             }
 
             if (playerStats.getSupplies() == 0 || playerStats.getMorale() == 0) {
@@ -159,6 +156,13 @@ public class GameData implements Serializable {
             return true;
         }
         return false;
+    }
+
+    private void captureSoldiersProcedure() {
+        addMessageLog("Your Soldiers were captured!\n");
+        playerStats.clearRaidedSupplies();
+        playerStats.moveSoldiers(CASTLE);
+        playerStats.reduceMorale();
     }
 
     private void archersAttack(String selectedTrack) {
@@ -212,9 +216,7 @@ public class GameData implements Serializable {
         switch (selectedTrack) {
             case LADDERS:
                 if (enemyTracks.getRamPosition() != 1) {
-                    addMessageLog("\n\n**********************************************************");
                     addMessageLog("[INVALID ACTION] There are no Ladders in the circle space!");
-                    addMessageLog("**********************************************************");
                     return false;
                 }
 
@@ -231,9 +233,7 @@ public class GameData implements Serializable {
                 break;
             case BATTERING_RAM:
                 if (enemyTracks.getRamPosition() != 1) {
-                    addMessageLog("\n\n*****************************************************************");
                     addMessageLog("[INVALID ACTION] There isn't a Battering Ram in the circle space!");
-                    addMessageLog("*****************************************************************");
                     return false;
                 }
 
@@ -250,9 +250,7 @@ public class GameData implements Serializable {
                 break;
             case SIEGE_TOWER:
                 if (enemyTracks.getTowerPosition() != 1) {
-                    addMessageLog("\n\n***************************************************************");
                     addMessageLog("[INVALID ACTION] There isn't a Siege Tower in the circle space!");
-                    addMessageLog("***************************************************************");
                     return false;
                 }
 
@@ -276,9 +274,7 @@ public class GameData implements Serializable {
         switch (selectedTrack) {
             case LADDERS:
                 if (enemyTracks.getRamPosition() != 0) {
-                    addMessageLog("\n\n****************************************************************");
                     addMessageLog("[INVALID ACTION] There are no Ladders in the close combat area!");
-                    addMessageLog("****************************************************************");
                     return false;
                 }
 
@@ -296,9 +292,7 @@ public class GameData implements Serializable {
 
             case BATTERING_RAM:
                 if (enemyTracks.getRamPosition() != 0) {
-                    addMessageLog("\n\n**********************************************************************");
                     addMessageLog("[INVALID ACTION] There isn't a Battering Ram in the close combat area!");
-                    addMessageLog("**********************************************************************");
                     return false;
                 }
 
@@ -316,9 +310,7 @@ public class GameData implements Serializable {
 
             case SIEGE_TOWER:
                 if (enemyTracks.getTowerPosition() != 0) {
-                    addMessageLog("\n\n********************************************************************");
                     addMessageLog("[INVALID ACTION] There isn't a Siege Tower in the close combat area!");
-                    addMessageLog("********************************************************************");
                     return false;
                 }
                 currentActionPoints--;
@@ -417,9 +409,7 @@ public class GameData implements Serializable {
     public boolean archersAttack() {
         if (currentActionPoints == 0) {
 
-            addMessageLog("\n\n***************************************************************");
             addMessageLog("[INVALID ACTION] You don't have enough Action Points Available!");
-            addMessageLog("***************************************************************");
 
             return false;
         }
@@ -428,19 +418,13 @@ public class GameData implements Serializable {
 
     public boolean boilingWaterAttack() {
         if (currentActionPoints == 0) {
-            addMessageLog("\n\n***************************************************************");
             addMessageLog("[INVALID ACTION] You don't have enough Action Points Available!");
-            addMessageLog("***************************************************************");
             return false;
         } else if (boiledWaterWasUsed == true) {
-            addMessageLog("\n\n*********************************************************************");
             addMessageLog("[INVALID ACTION] Boiling Water Atack was already used once this turn!");
-            addMessageLog("*********************************************************************");
             return false;
         } else if (enemyTracks.getNumberOfUnitsInCircleSpaces() == 0) {
-            addMessageLog("\n\n***********************************************************");
             addMessageLog("[INVALID ACTION] There are no enemies in the circle spaces!");
-            addMessageLog("***********************************************************");
             return false;
         }
         return true;
@@ -460,14 +444,10 @@ public class GameData implements Serializable {
 
     public boolean closeCombat() {
         if (currentActionPoints == 0) {
-            addMessageLog("\n\n***************************************************************");
             addMessageLog("[INVALID ACTION] You don't have enough Action Points Available!");
-            addMessageLog("***************************************************************");
             return false;
         } else if (enemyTracks.getNumberOfUnitsInCloseCombat() == 0) {
-            addMessageLog("\n\n**************************************************************");
             addMessageLog("[INVALID ACTION] There are no enemies in the close combat area");
-            addMessageLog("**************************************************************");
             return false;
         }
         return true;
@@ -483,9 +463,7 @@ public class GameData implements Serializable {
 
     public boolean rallyTroopsOptions() {
         if (currentActionPoints == 0) {
-            addMessageLog("\n\n***************************************************************");
             addMessageLog("[INVALID ACTION] You don't have enough Action Points Available!");
-            addMessageLog("***************************************************************");
             return false;
         }
         return true;
@@ -508,9 +486,7 @@ public class GameData implements Serializable {
 
     public boolean tunnelMovement() {
         if (currentActionPoints == 0) {
-            addMessageLog("\n\n***************************************************************");
             addMessageLog("[INVALID ACTION] You don't have enough Action Points Available!");
-            addMessageLog("***************************************************************");
             return false;
         }
         return true;
@@ -544,6 +520,26 @@ public class GameData implements Serializable {
                 return true;
         }
         return false;
+    }
+
+    public boolean supplyRaid() {
+        if (playerStats.getSoldiersLocation() != ENEMY_LINES) {
+            addMessageLog("[INVALID ACTION] Soldiers need to be behind the enemy lines to raid supplies");
+            return false;
+        }
+
+        currentActionPoints--;
+        die.roll();
+
+        if (die.getValue() == 6) {
+            playerStats.addRaidedSupplies(2);
+        } else if (die.getValue() >= 3 && die.getValue() <= 5) {
+            playerStats.addRaidedSupplies(1);
+        } else if (die.getValue() == 1) {
+            captureSoldiersProcedure();
+        }
+        return true;
+
     }
     // </editor-fold>
 }

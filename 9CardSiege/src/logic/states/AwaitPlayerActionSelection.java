@@ -68,4 +68,22 @@ public class AwaitPlayerActionSelection extends StateAdapter {
         return this;
     }
 
+    @Override
+    public IStates supplyRaid() {
+        if (getGame().supplyRaid()) {
+            switch (getGame().checkGameStatus()) {
+                case DRAW_CARD:
+                    getGame().setDefaultStatus();
+                    return new AwaitTopCardToBeDrawn(getGame());
+                case VICTORY:
+                    return new AwaitGameFinish(getGame(), VICTORY);
+                case DEFEAT:
+                    return new AwaitGameFinish(getGame(), DEFEAT);
+                case CONTINUE:
+                    return this;
+            }
+        }
+        return this;
+    }
+
 }

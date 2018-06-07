@@ -95,5 +95,9 @@ public class GameModel implements Serializable {
     public void moveSoldiers(int movementType){
         setState(getState().moveSoldiers(movementType));
     }
+    
+    public void supplyRaid(){
+        setState(getState().supplyRaid());
+    }
     // </editor-fold>
 }

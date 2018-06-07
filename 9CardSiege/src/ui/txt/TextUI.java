@@ -180,6 +180,7 @@ public class TextUI {
                 gameModel.tunnelMovement();
                 break;
             case '7':
+                gameModel.supplyRaid();
                 break;
             case '8':
                 break;

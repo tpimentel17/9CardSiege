@@ -78,4 +78,9 @@ public class StateAdapter implements IStates {
         return this;
     }
 
+    @Override
+    public IStates supplyRaid() {
+        return this;
+    }
+
 }

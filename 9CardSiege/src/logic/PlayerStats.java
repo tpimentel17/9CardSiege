@@ -5,7 +5,7 @@ import javax.sound.midi.ShortMessage;
 import static logic.Constants.*;
 
 public class PlayerStats implements Serializable {
-
+    
     private GameData gameData;
     private int wallStrength;
     private int morale;
@@ -13,7 +13,7 @@ public class PlayerStats implements Serializable {
     private int tunnelPosition;
     private int lastTunnelPosition;
     private int numberOfRaidedSupplies;
-
+    
     public PlayerStats(GameData gameData) {
         this.gameData = gameData;
         wallStrength = 4;
@@ -28,22 +28,22 @@ public class PlayerStats implements Serializable {
     public int getWallStrength() {
         return wallStrength;
     }
-
+    
     public int getMorale() {
         return morale;
     }
-
+    
     public int getSupplies() {
         return supplies;
     }
-
+    
     public int getNumberOfRaidedSupplies() {
         return numberOfRaidedSupplies;
     }
-
+    
     public int getNumberOfZeroStats() {
         int num = 0;
-
+        
         if (wallStrength == 0) {
             num++;
         }
@@ -53,10 +53,10 @@ public class PlayerStats implements Serializable {
         if (supplies == 0) {
             num++;
         }
-
+        
         return num;
     }
-
+    
     public int getSoldiersLocation() {
         return tunnelPosition;
     }
@@ -66,15 +66,15 @@ public class PlayerStats implements Serializable {
     public void setWallStrength(int wallStrength) {
         this.wallStrength = wallStrength;
     }
-
+    
     public void setSupplies(int supplies) {
         this.supplies = supplies;
     }
-
+    
     public void setTunnel(int tunnel) {
         this.tunnelPosition = tunnel;
     }
-
+    
     public void setNumberOfRaidedSupplies(int numberOfRaidedSupplies) {
         this.numberOfRaidedSupplies = numberOfRaidedSupplies;
     }
@@ -89,7 +89,7 @@ public class PlayerStats implements Serializable {
             wallStrength -= damage;
         }
     }
-
+    
     public void reduceMorale() {
         gameData.addMessageLog("You've lost 1 Morale point.");
         if (morale == 0) {
@@ -97,7 +97,7 @@ public class PlayerStats implements Serializable {
         }
         morale--;
     }
-
+    
     public void increaseMorale() {
         gameData.addMessageLog("You've gained 1 Morale point.");
         if (morale == 4) {
@@ -105,7 +105,7 @@ public class PlayerStats implements Serializable {
         }
         morale++;
     }
-
+    
     public void reduceSupplies(int amount) {
         gameData.addMessageLog("You've lost " + amount + " Supplies point(s).");
         if (supplies - amount < 0) {
@@ -114,12 +114,21 @@ public class PlayerStats implements Serializable {
             supplies -= amount;
         }
     }
-
+    
     public void clearRaidedSupplies() {
         gameData.addMessageLog("Raided supplies were cleared.");
         numberOfRaidedSupplies = 0;
     }
-
+    
+    public void addRaidedSupplies(int amount) {
+        if (amount + numberOfRaidedSupplies > 2) {
+            numberOfRaidedSupplies = 2;
+        } else {
+            numberOfRaidedSupplies += amount;
+        }
+        gameData.addMessageLog("Your soldiers are carrying " + numberOfRaidedSupplies + " supplies.");
+    }
+    
     public void addSupplies(int amount) {
         gameData.addMessageLog("You've gained " + amount + " Supplies point(s).");
         if (supplies + amount > 4) {
@@ -128,7 +137,7 @@ public class PlayerStats implements Serializable {
             supplies += amount;
         }
     }
-
+    
     public void moveSoldiers(int position) {
         tunnelPosition = position;
         switch (position) {
@@ -148,7 +157,7 @@ public class PlayerStats implements Serializable {
                 break;
         }
     }
-
+    
     public void repairWall() {
         gameData.addMessageLog("Your wall was repaired in 1 point.");
         if (wallStrength == 4) {
@@ -156,14 +165,14 @@ public class PlayerStats implements Serializable {
         }
         wallStrength++;
     }
-
+    
     public boolean moveIntoTunnel() {
-
+        
         switch (tunnelPosition) {
             case CASTLE:
                 moveSoldiers(TUNNEL_CASTLE);
                 lastTunnelPosition = CASTLE;
-
+                
                 return true;
             case ENEMY_LINES:
                 moveSoldiers(TUNNEL_ENEMY);
@@ -174,9 +183,9 @@ public class PlayerStats implements Serializable {
                 return false;
         }
     }
-
+    
     public boolean freeMovement() {
-
+        
         if (tunnelPosition == CASTLE || tunnelPosition == ENEMY_LINES) {
             gameData.addMessageLog("You can't perform a Free Movement before entering the tunnel!");
             return false;
@@ -184,7 +193,7 @@ public class PlayerStats implements Serializable {
             if (tunnelPosition > lastTunnelPosition) {
                 lastTunnelPosition = tunnelPosition;
                 moveSoldiers(++tunnelPosition);
-
+                
             } else {
                 lastTunnelPosition = tunnelPosition;
                 moveSoldiers(--tunnelPosition);
@@ -192,7 +201,7 @@ public class PlayerStats implements Serializable {
             return true;
         }
     }
-
+    
     public void fastMovement() {
         switch (tunnelPosition) {
             case CASTLE:
