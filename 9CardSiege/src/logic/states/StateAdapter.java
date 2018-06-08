@@ -83,4 +83,9 @@ public class StateAdapter implements IStates {
         return this;
     }
 
+    @Override
+    public IStates sabotage() {
+        return this;
+    }
+
 }

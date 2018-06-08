@@ -27,4 +27,7 @@ public interface IStates extends Serializable {
     IStates supplyRaid();   //AwaitPlayerActionSelection -> AwaitPlayerActionSelection
                             //AwaitPlayerActionSelection -> AwaitTopCardToBeDrawn
                             //AwaitPlayerActionSelection -> AwaitGameFinish
+    IStates sabotage();     //AwaitPlayerActionSelection -> AwaitPlayerActionSelection
+                            //AwaitPlayerActionSelection -> AwaitTopCardToBeDrawn
+                            //AwaitPlayerActionSelection -> AwaitGameFinish
 }

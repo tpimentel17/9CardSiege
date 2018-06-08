@@ -183,6 +183,7 @@ public class TextUI {
                 gameModel.supplyRaid();
                 break;
             case '8':
+                gameModel.sabotage();
                 break;
             case '9':
                 quit = true;

@@ -69,24 +69,6 @@ public class EnemyTracks implements Serializable {
     }
     // </editor-fold>
 
-    // <editor-fold desc="SETTERS">
-    public void setLaddersPosition(int laddersPosition) {
-        this.laddersPosition = laddersPosition;
-    }
-
-    public void setRamPosition(int ramPosition) {
-        this.ramPosition = ramPosition;
-    }
-
-    public void setTowerPosition(int towerPosition) {
-        this.towerPosition = towerPosition;
-    }
-
-    public void setNumberOfTrebuchets(int numberOfTrebuchets) {
-        this.numberOfTrebuchets = numberOfTrebuchets;
-    }
-// </editor-fold>
-
     // <editor-fold desc="PRIVATE METHODS">
     private int getSlowestPosition() {
         int pos = laddersPosition;
@@ -181,6 +163,13 @@ public class EnemyTracks implements Serializable {
                 gameData.addMessageLog("Siege Tower has moved backwards 1 unit.");
                 towerPosition++;
                 break;
+        }
+    }
+
+    public void destroyTrebuchet() {
+        if (numberOfTrebuchets > 0) {
+            numberOfTrebuchets--;
+            gameData.addMessageLog("An enemy trebuchet was destroyed!");
         }
     }
 

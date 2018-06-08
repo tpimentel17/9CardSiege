@@ -99,5 +99,9 @@ public class GameModel implements Serializable {
     public void supplyRaid(){
         setState(getState().supplyRaid());
     }
+    
+    public void sabotage(){
+        setState(getState().sabotage());
+    }
     // </editor-fold>
 }

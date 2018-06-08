@@ -524,7 +524,7 @@ public class GameData implements Serializable {
 
     public boolean supplyRaid() {
         if (playerStats.getSoldiersLocation() != ENEMY_LINES) {
-            addMessageLog("[INVALID ACTION] Soldiers need to be behind the enemy lines to raid supplies");
+            addMessageLog("[INVALID ACTION] Soldiers need to be behind the enemy lines to raid supplies!");
             return false;
         }
 
@@ -536,10 +536,39 @@ public class GameData implements Serializable {
         } else if (die.getValue() >= 3 && die.getValue() <= 5) {
             playerStats.addRaidedSupplies(1);
         } else if (die.getValue() == 1) {
+            addMessageLog("The supply raid wasn't successful.");
             captureSoldiersProcedure();
+        } else {
+            addMessageLog("The supply raid wasn't successful.");
         }
         return true;
 
     }
+
+    public boolean sabotage() {
+        if (playerStats.getSoldiersLocation() != ENEMY_LINES) {
+            addMessageLog("[INVALID ACTION] Soldiers need to be behind the enemy lines to sabotage the enemy trebuchets!");
+            return false;
+        }
+
+        if (enemyTracks.getNumberOfTrebuchets() == 0) {
+            addMessageLog("[INVALID ACTION] There are no trebuchets left to destroy!");
+            return false;
+        }
+
+        currentActionPoints--;
+        die.roll();
+
+        if (die.getValue() == 5 || die.getValue() == 6) {
+            enemyTracks.destroyTrebuchet();
+        } else if (die.getValue() == 1) {
+            addMessageLog("The supply raid wasn't successful.");
+            captureSoldiersProcedure();
+        } else {
+            addMessageLog("The supply raid wasn't successful.");
+        }
+        return true;
+    }
+
     // </editor-fold>
 }
