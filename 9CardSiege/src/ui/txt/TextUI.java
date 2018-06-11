@@ -9,10 +9,10 @@ import logic.states.*;
 import logic.states.IStates;
 
 public class TextUI {
-
+    
     private GameModel gameModel;
     private boolean quit = false;
-
+    
     public TextUI(GameModel gameModel) {
         this.gameModel = gameModel;
     }
@@ -22,28 +22,28 @@ public class TextUI {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
-
+        
         System.out.println("\n=== AWAITING FOR THE BEGINNING OF THE GAME ===\n");
-
+        
         do {
-
+            
             System.out.println();
             System.out.println("1 - Start a new game");
             System.out.println("2 - Continue a previous game");
             System.out.println("3 - Quit");
             System.out.println();
             System.out.print("> ");
-
+            
             option = sc.next();
-
+            
             if (option.length() >= 1) {
                 c = option.charAt(0);
             } else {
                 c = ' ';
             }
-
+            
         } while (c < '1' || c > '3');
-
+        
         switch (c) {
             case '1':
                 gameModel.startGame();
@@ -57,27 +57,27 @@ public class TextUI {
                 } catch (IOException ex) {
                     System.out.println("[EXCEPTION] Problem loading object from file!");
                 }
-
+                
                 break;
             case '3':
                 quit = true;
                 return;
         }
     }
-
+    
     private void uiAwaitTopCardToBeDrawn() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
-
+        
         System.out.println();
         System.out.println();
         System.out.println("**********************************************************");
         System.out.println();
         System.out.println("\n=== DRAW CARD FROM DECK - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
-
+        
         do {
-
+            
             System.out.println();
             System.out.println("1 - Draw Card");
             System.out.println("2 - Show Status Tracks");
@@ -86,17 +86,17 @@ public class TextUI {
             System.out.println("5 - Quit");
             System.out.println();
             System.out.print("> ");
-
+            
             option = sc.next();
-
+            
             if (option.length() >= 1) {
                 c = option.charAt(0);
             } else {
                 c = ' ';
             }
-
+            
         } while (c < '1' || c > '5');
-
+        
         switch (c) {
             case '1':
                 gameModel.drawTopCard();
@@ -116,18 +116,18 @@ public class TextUI {
                 return;
         }
     }
-
+    
     private void uiAwaitPlayerActionSelection() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
-
+        
         System.out.println();
         System.out.println();
         System.out.println("**********************************************************");
         System.out.println();
         System.out.println("\n=== SELECT AN ACTION - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
-
+        
         do {
             System.out.println();
             System.out.println("Available Action Points: " + gameModel.getGameData().getCurrentActionPoints());
@@ -142,24 +142,24 @@ public class TextUI {
             System.out.println("7 - Supply Raid");
             System.out.println("8 - Sabotage");
             System.out.println("9 - Quit");
-
+            
             System.out.println();
             System.out.print("> ");
-
+            
             option = sc.next();
-
+            
             if (option.length() >= 1) {
                 option = option.toUpperCase();
                 c = option.charAt(0);
             } else {
                 c = ' ';
             }
-
-        } while (c < '1' || c > '9' && c != 'A' );
-
+            
+        } while (c < '1' || c > '9' && c != 'A');
+        
         switch (c) {
             case 'A':
-                System.out.println("\nAdditional Action Points");
+                gameModel.additionalActionPointsSelected();
                 break;
             case '1':
                 gameModel.archersAttack();
@@ -190,22 +190,24 @@ public class TextUI {
                 return;
         }
     }
-
+    
     private void uiAwaitTrackSelection() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
-
+        
         System.out.println();
         System.out.println();
         System.out.println("**********************************************************");
-
+        
         if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(ARCHERS)) {
             System.out.println("\n=== SELECT THE TRACK TO BE ATTACKED BY THE ARCHERS - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
+        } else if (((AwaitTrackSelection) gameModel.getState()).getAction().equals(CLOSE_COMBAT)) {
+            System.out.println("\n=== SELECT THE TRACK TO PERFORM THE CLOSE COMBAT - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
         } else {
             System.out.println("\n=== SELECT THE TRACK TO BE ATTACKED WITH BOILING WATER - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
         }
-
+        
         do {
             System.out.println();
             System.out.println("1 - Ladders");
@@ -213,17 +215,17 @@ public class TextUI {
             System.out.println("3 - Siege Tower");
             System.out.println();
             System.out.print("> ");
-
+            
             option = sc.next();
-
+            
             if (option.length() >= 1) {
                 c = option.charAt(0);
             } else {
                 c = ' ';
             }
-
+            
         } while (c < '1' || c > '3');
-
+        
         switch (c) {
             case '1':
                 gameModel.attackSelectedTrack(LADDERS);
@@ -236,12 +238,12 @@ public class TextUI {
                 break;
         }
     }
-
+    
     private void uiAwaitGameFinish() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
-
+        
         System.out.println();
         System.out.println();
         System.out.println("**********************************************************");
@@ -253,9 +255,9 @@ public class TextUI {
         } else {
             System.out.println("\n-------------> NÃO FOI DESTA QUE VENCEU... <-------------");
         }
-
+        
         do {
-
+            
             System.out.println();
             System.out.println("Do you want to start a new game?");
             System.out.println();
@@ -263,17 +265,17 @@ public class TextUI {
             System.out.println("2 - No");
             System.out.println();
             System.out.print("> ");
-
+            
             option = sc.next();
-
+            
             if (option.length() >= 1) {
                 c = option.charAt(0);
             } else {
                 c = ' ';
             }
-
+            
         } while (c < '1' || c > '2');
-
+        
         switch (c) {
             case '1':
                 gameModel.restartGame();
@@ -282,22 +284,22 @@ public class TextUI {
                 quit = true;
                 return;
         }
-
+        
     }
-
+    
     private void uiAwaitOptionSelection() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
-
+        
         System.out.println();
         System.out.println();
         System.out.println("**********************************************************");
         System.out.println();
         System.out.println("\n=== SELECT AN OPTION - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
-
+        
         do {
-
+            
             System.out.println();
             System.out.println("You can spend 1 supplie to have a bigger chance of improving your people's Morale.");
             System.out.println("Do you wish to do it?");
@@ -306,17 +308,17 @@ public class TextUI {
             System.out.println("2 - No");
             System.out.println();
             System.out.print("> ");
-
+            
             option = sc.next();
-
+            
             if (option.length() >= 1) {
                 c = option.charAt(0);
             } else {
                 c = ' ';
             }
-
+            
         } while (c < '1' || c > '2');
-
+        
         switch (c) {
             case '1':
                 gameModel.rallyTroops(true);
@@ -326,20 +328,20 @@ public class TextUI {
                 break;
         }
     }
-
+    
     private void uiAwaitMovementTypeSelection() {
         Scanner sc = new Scanner(System.in);
         String option;
         char c;
-
+        
         System.out.println();
         System.out.println();
         System.out.println("**********************************************************");
         System.out.println();
         System.out.println("\n=== SELECT THE TYPE OF MOVEMENT TO PERFMORM - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
-
+        
         do {
-
+            
             System.out.println();
             System.out.println("1 - Move Into the Tunnel (1 Action Point)");
             System.out.println("2 - Free Movement");
@@ -347,17 +349,17 @@ public class TextUI {
             System.out.println("4 - Quit");
             System.out.println();
             System.out.print("> ");
-
+            
             option = sc.next();
-
+            
             if (option.length() >= 1) {
                 c = option.charAt(0);
             } else {
                 c = ' ';
             }
-
+            
         } while (c < '1' || c > '4');
-
+        
         switch (c) {
             case '1':
                 gameModel.moveSoldiers(MOVE_INTO_TUNNEL);
@@ -371,26 +373,66 @@ public class TextUI {
             case '4':
                 quit = true;
                 return;
-
+            
+        }
+    }
+    
+    private void uiAwaitAdditionalActionPointsSelection() {
+        Scanner sc = new Scanner(System.in);
+        String option;
+        char c;
+        
+        System.out.println();
+        System.out.println();
+        System.out.println("**********************************************************");
+        
+        System.out.println("\n=== SELECT WHICH POINT DO YOU WANT TO TRADE FOR AN ACTION POINT - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
+        
+        do {
+            System.out.println();
+            System.out.println("1 - Morale Point");
+            System.out.println("2 - Supply Point");
+            System.out.println();
+            System.out.print("> ");
+            
+            option = sc.next();
+            
+            if (option.length() >= 1) {
+                c = option.charAt(0);
+            } else {
+                c = ' ';
+            }
+            
+        } while (c < '1' || c > '2');
+        
+        switch (c) {
+            case '1':
+                gameModel.additionalActionPoint(MORALE);
+                break;
+            case '2':
+                gameModel.additionalActionPoint(SUPPLY);
+                break;
+            
         }
     }
 
     //</editor-fold>
     public void run() {
         while (!quit) {
-            
+
             //Apresenta mensagens do log
-            if(!gameModel.getMessageLog().isEmpty()){
+            if (!gameModel.getMessageLog().isEmpty()) {
                 System.out.println();
                 
-                for(String msg:gameModel.getMessageLog())
+                for (String msg : gameModel.getMessageLog()) {
                     System.out.println(msg);
+                }
                 
                 gameModel.clearMessageLog();
             }
             
             IStates state = gameModel.getState();
-
+            
             if (state instanceof AwaitBegining) {
                 uiAwaitBeginning();
             } else if (state instanceof AwaitTopCardToBeDrawn) {
@@ -405,6 +447,8 @@ public class TextUI {
                 uiAwaitOptionSelection();
             } else if (state instanceof AwaitMovementTypeSelection) {
                 uiAwaitMovementTypeSelection();
+            } else if (state instanceof AwaitAdditionalActionPointsSelection) {
+                uiAwaitAdditionalActionPointsSelection();
             }
         }
     }
@@ -419,7 +463,7 @@ public class TextUI {
         System.out.println("Supplies -> " + gameModel.getGameData().getPlayerStats().getSupplies());
         System.out.println();
         System.out.println("Soldiers Position:");
-
+        
         switch (gameModel.getGameData().getPlayerStats().getSoldiersLocation()) {
             case CASTLE:
                 System.out.println("Castle [x| : | ] EnemyLines");
@@ -436,13 +480,13 @@ public class TextUI {
         }
         System.out.print("Raided Supplies -> " + gameModel.getGameData().getPlayerStats().getNumberOfRaidedSupplies());
     }
-
+    
     private void showEnemyTracks() {
-
+        
         int laddersPosition = gameModel.getGameData().getEnemyTracks().getLaddersPosition();
         int ramPosition = gameModel.getGameData().getEnemyTracks().getRamPosition();
         int towerPosition = gameModel.getGameData().getEnemyTracks().getTowerPosition();
-
+        
         System.out.println();
         System.out.println("****Enemy Tracks****");
         System.out.println();
@@ -452,5 +496,5 @@ public class TextUI {
         System.out.println("Siege Tower distance -> " + towerPosition + "\tStrength: 4");
         System.out.println("Number of Trebuchet(s) -> " + gameModel.getGameData().getEnemyTracks().getNumberOfTrebuchets());
     }
-
+    
 }

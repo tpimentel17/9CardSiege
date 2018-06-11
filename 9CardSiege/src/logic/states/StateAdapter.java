@@ -88,4 +88,14 @@ public class StateAdapter implements IStates {
         return this;
     }
 
+    @Override
+    public IStates additionalActionPointsSelected() {
+        return this;
+    }
+
+    @Override
+    public IStates additionalActionPoint(int point) {
+        return this;
+    }
+
 }

@@ -30,4 +30,6 @@ public interface IStates extends Serializable {
     IStates sabotage();     //AwaitPlayerActionSelection -> AwaitPlayerActionSelection
                             //AwaitPlayerActionSelection -> AwaitTopCardToBeDrawn
                             //AwaitPlayerActionSelection -> AwaitGameFinish
+    IStates additionalActionPointsSelected();   //AwaitPlayerActionSelection -> AwaitAdditionalActionPointsSelected
+    IStates additionalActionPoint(int point);    //AwaitAdditionalActionPointsSelected -> AwaitPlayerActionSelection
 }

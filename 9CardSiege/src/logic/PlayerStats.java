@@ -1,7 +1,6 @@
 package logic;
 
 import java.io.Serializable;
-import javax.sound.midi.ShortMessage;
 import static logic.Constants.*;
 
 public class PlayerStats implements Serializable {

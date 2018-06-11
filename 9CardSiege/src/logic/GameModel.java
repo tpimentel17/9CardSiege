@@ -103,5 +103,13 @@ public class GameModel implements Serializable {
     public void sabotage(){
         setState(getState().sabotage());
     }
+    
+    public void additionalActionPointsSelected(){
+        setState(getState().additionalActionPointsSelected());
+    }
+    
+    public void additionalActionPoint(int point){
+        setState(getState().additionalActionPoint(point));
+    }
     // </editor-fold>
 }

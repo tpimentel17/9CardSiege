@@ -11,17 +11,18 @@ public class GameData implements Serializable {
     private int gameStatus;
     private int currentDay;
     private int currentActionPoints;
-    private PlayerStats playerStats;
-    private EnemyTracks enemyTracks;
-    private Die die;
-    private ArrayList<Card> deck;
-    private ArrayList<Card> drawnCards;
+    private final PlayerStats playerStats;
+    private final EnemyTracks enemyTracks;
+    private final Die die;
+    private final ArrayList<Card> deck;
+    private final ArrayList<Card> drawnCards;
 
     private boolean gameFinish;
     private boolean boiledWaterWasUsed;
     private boolean freeMovementWasUsed;
+    private boolean additionalActionalActionPointWasUsed;
 
-    private ArrayList<String> messageLog;
+    private final ArrayList<String> messageLog;
 
     public GameData() {
         messageLog = new ArrayList<>();
@@ -45,6 +46,7 @@ public class GameData implements Serializable {
         gameStatus = CONTINUE;
         boiledWaterWasUsed = false;
         freeMovementWasUsed = false;
+        additionalActionalActionPointWasUsed = false;
         currentDay = 1;
 
         Collections.shuffle(deck);
@@ -109,10 +111,7 @@ public class GameData implements Serializable {
     //</editor-fold>
     // <editor-fold desc="PRIVATE METHODS">
     private boolean endOfTurnLossCheck() {
-        if (enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerStats.getNumberOfZeroStats() > 0) {
-            return true;
-        }
-        return false;
+        return enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerStats.getNumberOfZeroStats() > 0;
     }
 
     private void reshuffleDeck() {
@@ -150,6 +149,7 @@ public class GameData implements Serializable {
             gameStatus = DRAW_CARD;
             boiledWaterWasUsed = false;
             freeMovementWasUsed = false;
+            additionalActionalActionPointWasUsed = false;
             if (endOfTurnLossCheck()) {
                 gameStatus = DEFEAT;
             }
@@ -223,7 +223,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();;
+                    playerStats.reduceMorale();
                 }
                 if (die.getValue() + 1 > 2) {
                     enemyTracks.moveBackwards(LADDERS);
@@ -240,7 +240,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();;
+                    playerStats.reduceMorale();
                 }
                 if (die.getValue() + 1 > 3) {
                     enemyTracks.moveBackwards(BATTERING_RAM);
@@ -257,7 +257,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();;
+                    playerStats.reduceMorale();
                 }
                 if (die.getValue() + 1 > 4) {
                     enemyTracks.moveBackwards(SIEGE_TOWER);
@@ -281,7 +281,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();;
+                    playerStats.reduceMorale();
                 }
                 if (die.getValue() > 4) {
                     enemyTracks.moveBackwards(LADDERS);
@@ -299,7 +299,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();;
+                    playerStats.reduceMorale();
                 }
                 if (die.getValue() > 4) {
                     enemyTracks.moveBackwards(BATTERING_RAM);
@@ -316,7 +316,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();;
+                    playerStats.reduceMorale();
                 }
                 if (die.getValue() > 4) {
                     enemyTracks.moveBackwards(SIEGE_TOWER);
@@ -432,13 +432,14 @@ public class GameData implements Serializable {
 
     public boolean attackSelectedTrack(String action, String selectedTrack) {
 
-        if (action.equals(ARCHERS)) {
-            archersAttack(selectedTrack);
-            return true;
-        } else if (action.equals(BOILING_WATER)) {
-            return boilingWaterAttack(selectedTrack);
-        } else {
-            return closeCombat(selectedTrack);
+        switch (action) {
+            case ARCHERS:
+                archersAttack(selectedTrack);
+                return true;
+            case BOILING_WATER:
+                return boilingWaterAttack(selectedTrack);
+            default:
+                return closeCombat(selectedTrack);
         }
     }
 
@@ -559,13 +560,53 @@ public class GameData implements Serializable {
         currentActionPoints--;
         die.roll();
 
-        if (die.getValue() == 5 || die.getValue() == 6) {
-            enemyTracks.destroyTrebuchet();
-        } else if (die.getValue() == 1) {
-            addMessageLog("The supply raid wasn't successful.");
-            captureSoldiersProcedure();
-        } else {
-            addMessageLog("The supply raid wasn't successful.");
+        switch (die.getValue()) {
+            case 5:
+            case 6:
+                enemyTracks.destroyTrebuchet();
+                break;
+            case 1:
+                addMessageLog("The supply raid wasn't successful.");
+                captureSoldiersProcedure();
+                break;
+            default:
+                addMessageLog("The supply raid wasn't successful.");
+                break;
+        }
+        return true;
+    }
+
+    public boolean additionalActionPointSelected() {
+        if (additionalActionalActionPointWasUsed) {
+            addMessageLog("[INVALID ACTION] Aditional Action Points action was already used this turn!");
+            return false;
+        }
+
+        if (playerStats.getSupplies() == 0 && playerStats.getMorale() == 0) {
+            addMessageLog("[INVALID ACTION] You don't have enough Morale nor Supply points to perform this action!");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean additionalActionPoint(int point) {
+
+        if (point == MORALE) {
+            if (playerStats.getMorale() == 0) {
+                addMessageLog("[INVALID ACTION] You don't have enough Morale points to perform this action!");
+                return false;
+            }
+            playerStats.reduceMorale();
+            currentActionPoints++;
+            additionalActionalActionPointWasUsed = true;
+        }else{
+            if(playerStats.getSupplies() == 0){
+                addMessageLog("[INVALID ACTION] You don't have enough Supply points to perform this action!");
+                return false;
+            }
+            playerStats.reduceSupplies(1);
+            currentActionPoints++;
+            additionalActionalActionPointWasUsed = true;
         }
         return true;
     }

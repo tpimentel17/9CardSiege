@@ -32,4 +32,9 @@ public interface Constants {
     public static final int MOVE_INTO_TUNNEL = 0;
     public static final int FREE_MOVEMENT = 1;
     public static final int FAST_MOVEMENT = 2;
+
+    //PLAYER POINTS
+    public static final int MORALE = 1;
+    public static final int SUPPLY = 2;
+
 }

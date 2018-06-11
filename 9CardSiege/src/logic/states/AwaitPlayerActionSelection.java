@@ -104,4 +104,14 @@ public class AwaitPlayerActionSelection extends StateAdapter {
         return this;
     }
 
+    @Override
+    public IStates additionalActionPointsSelected() {
+        if (getGame().additionalActionPointSelected()) {
+            return new AwaitAdditionalActionPointsSelection(getGame());
+        }
+        return this;
+    }
+
+    
+    
 }
