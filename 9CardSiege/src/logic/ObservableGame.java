@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.Observable;
+import logic.states.IStates;
 
 public class ObservableGame extends Observable {
     
@@ -14,5 +15,18 @@ public class ObservableGame extends Observable {
         return gameModel;
     }
     
+    public void setGameModel(GameModel gameModel){
+        this.gameModel = gameModel;
+        
+        setChanged();
+        notifyAll();
+    }
     
+    public GameData getGameData(){
+        return gameModel.getGameData();
+    }
+    
+    public IStates getState(){
+        return gameModel.getState();
+    }
 }
