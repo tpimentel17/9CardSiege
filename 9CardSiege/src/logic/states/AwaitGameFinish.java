@@ -17,7 +17,7 @@ public class AwaitGameFinish extends StateAdapter {
 
     @Override
     public IStates restartGame() {
-        return new AwaitBegining(new GameData());
+        return new AwaitBegining(getGame());
     }
     
         

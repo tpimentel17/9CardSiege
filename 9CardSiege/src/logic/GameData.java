@@ -11,27 +11,32 @@ public class GameData implements Serializable {
     private int gameStatus;
     private int currentDay;
     private int currentActionPoints;
-    private final PlayerStats playerStats;
-    private final EnemyTracks enemyTracks;
-    private final Die die;
-    private final ArrayList<Card> deck;
-    private final ArrayList<Card> drawnCards;
+    private PlayerStats playerStats;
+    private EnemyTracks enemyTracks;
+    private Die die;
+    private ArrayList<Card> deck;
+    private ArrayList<Card> drawnCards;
 
     private boolean gameFinish;
     private boolean boiledWaterWasUsed;
     private boolean freeMovementWasUsed;
     private boolean additionalActionalActionPointWasUsed;
 
-    private final ArrayList<String> messageLog;
+    private ArrayList<String> messageLog;
 
     public GameData() {
+        die = new Die(this);
+        drawnCards = new ArrayList<>(7);
+
+        initialize();
+    }
+
+    public final boolean initialize() {
         messageLog = new ArrayList<>();
 
         playerStats = new PlayerStats(this);
         enemyTracks = new EnemyTracks(this);
-        die = new Die(this);
         deck = new ArrayList<>(7);
-        drawnCards = new ArrayList<>(7);
 
         deck.add(new Card1());
         deck.add(new Card2());
@@ -40,9 +45,7 @@ public class GameData implements Serializable {
         deck.add(new Card5());
         deck.add(new Card6());
         deck.add(new Card7());
-    }
-
-    public boolean initialize() {
+        
         gameStatus = CONTINUE;
         boiledWaterWasUsed = false;
         freeMovementWasUsed = false;
@@ -50,6 +53,10 @@ public class GameData implements Serializable {
         currentDay = 1;
 
         Collections.shuffle(deck);
+        
+        currentActionPoints = 0;
+        drawnCards.clear();
+        gameFinish = false;
 
         return true;
     }

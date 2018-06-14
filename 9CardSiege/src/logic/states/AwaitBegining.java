@@ -10,8 +10,10 @@ public class AwaitBegining extends StateAdapter {
 
     @Override
     public IStates startGame() {
-        if(getGame().initialize())
+        if(getGame().initialize()){
+            System.out.println("INITIALIZE__________________");
             return new AwaitTopCardToBeDrawn(getGame());
+        }
         return this;
     }
     
