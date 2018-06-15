@@ -25,15 +25,13 @@ public class GameData implements Serializable {
     private ArrayList<String> messageLog;
 
     public GameData() {
-        die = new Die(this);
-        drawnCards = new ArrayList<>(7);
-
         initialize();
     }
 
     public final boolean initialize() {
         messageLog = new ArrayList<>();
-
+        die = new Die(this);
+        drawnCards = new ArrayList<>(7);
         playerStats = new PlayerStats(this);
         enemyTracks = new EnemyTracks(this);
         deck = new ArrayList<>(7);
@@ -45,7 +43,7 @@ public class GameData implements Serializable {
         deck.add(new Card5());
         deck.add(new Card6());
         deck.add(new Card7());
-        
+
         gameStatus = CONTINUE;
         boiledWaterWasUsed = false;
         freeMovementWasUsed = false;
@@ -53,7 +51,7 @@ public class GameData implements Serializable {
         currentDay = 1;
 
         Collections.shuffle(deck);
-        
+
         currentActionPoints = 0;
         drawnCards.clear();
         gameFinish = false;
@@ -606,8 +604,8 @@ public class GameData implements Serializable {
             playerStats.reduceMorale();
             currentActionPoints++;
             additionalActionalActionPointWasUsed = true;
-        }else{
-            if(playerStats.getSupplies() == 0){
+        } else {
+            if (playerStats.getSupplies() == 0) {
                 addMessageLog("[INVALID ACTION] You don't have enough Supply points to perform this action!");
                 return false;
             }
