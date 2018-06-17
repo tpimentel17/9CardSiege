@@ -37,4 +37,9 @@ public interface Constants {
     public static final int MORALE = 1;
     public static final int SUPPLY = 2;
 
+    
+    //WINDOW DIMENSIONS
+    public static final int FRAME_WIDTH = 1200;
+    public static final int FRAME_HEIGHT = 700;
+
 }
