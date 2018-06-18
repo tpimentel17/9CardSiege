@@ -39,7 +39,7 @@ public interface Constants {
 
     
     //WINDOW DIMENSIONS
-    public static final int FRAME_WIDTH = 1200;
+    public static final int FRAME_WIDTH = 1300;
     public static final int FRAME_HEIGHT = 700;
 
 }

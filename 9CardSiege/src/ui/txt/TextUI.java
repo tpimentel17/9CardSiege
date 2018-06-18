@@ -338,7 +338,7 @@ public class TextUI {
         System.out.println();
         System.out.println("**********************************************************");
         System.out.println();
-        System.out.println("\n=== SELECT THE TYPE OF MOVEMENT TO PERFMORM - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
+        System.out.println("\n=== SELECT THE TYPE OF MOVEMENT TO PERFORM - DAY " + gameModel.getGameData().getCurrentDay() + " ===\n");
         
         do {
             

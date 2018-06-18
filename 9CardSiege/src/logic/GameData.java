@@ -87,8 +87,41 @@ public class GameData implements Serializable {
     public ArrayList<Card> getDrawnCards() {
         return drawnCards;
     }
-    // </editor-fold>
 
+    public boolean boiledWaterWasUsed() {
+        return boiledWaterWasUsed;
+    }
+
+    public int getNumberOfEnemiesInCircleSpaces() {
+        return enemyTracks.getNumberOfUnitsInCircleSpaces();
+    }
+
+    public int getNumberOfEnemiesInCloseCombat() {
+        return enemyTracks.getNumberOfUnitsInCloseCombat();
+    }
+
+    public boolean freeMovementWaterWasUsed() {
+        return freeMovementWasUsed;
+    }
+
+    public boolean additionalActionalActionPointWasUsed() {
+        return additionalActionalActionPointWasUsed;
+    }
+
+    public int getSoldiersLocation() {
+        return playerStats.getSoldiersLocation();
+    }
+    
+    public int getMoralePoints(){
+        return playerStats.getMorale();
+    }
+    
+    public int getSuppliesPoints(){
+        return playerStats.getSupplies();
+    }
+
+    // </editor-fold>
+    
     // <editor-fold desc="PUBLIC METHODS">
     public void clearMessageLog() {
         messageLog.clear();

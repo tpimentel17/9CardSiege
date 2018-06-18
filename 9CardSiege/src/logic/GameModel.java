@@ -38,6 +38,41 @@ public class GameModel implements Serializable {
     // </editor-fold>
     
     // <editor-fold desc="METODOS DE ACESSO AOS DADOS/ESTADO DO JOGO">
+   
+    
+    public boolean boiledWaterWasUsed() {
+        return gameData.boiledWaterWasUsed();
+    }
+
+    public int getNumberOfEnemiesInCircleSpaces() {
+        return gameData.getNumberOfEnemiesInCircleSpaces();
+    }
+    
+    public int getNumberOfEnemiesInCloseCombat() {
+        return gameData.getNumberOfEnemiesInCloseCombat();
+    }
+
+    public boolean freeMovementWaterWasUsed() {
+        return gameData.freeMovementWaterWasUsed();
+    }
+
+    public boolean additionalActionalActionPointWasUsed() {
+        return gameData.additionalActionalActionPointWasUsed();
+    }
+    
+    public int getSoldiersLocation() {
+        return gameData.getSoldiersLocation();
+    }
+    
+    public int getMoralePoints(){
+        return gameData.getMoralePoints();
+    }
+    
+    public int getSuppliesPoints(){
+        return gameData.getSuppliesPoints();
+    }
+    
+    
     public ArrayList<String> getMessageLog(){
         return gameData.getMessageLog();
     }

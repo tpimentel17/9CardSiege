@@ -1,13 +1,17 @@
 package ui.gui;
 
+import files.FileUtility;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -15,11 +19,19 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import logic.Constants;
+import logic.GameModel;
 import logic.ObservableGame;
+import logic.states.AwaitBegining;
+import logic.states.AwaitTopCardToBeDrawn;
+import logic.states.IStates;
 
 public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
 
     private ObservableGame observableGame;
+    private JMenuItem load;
+    private JMenuItem save;
+
+    private AwaitAdditionalActionPointsSelectionPanel awaitAdditionalActionPointsSelectionPanel;
 
     public NineCardSiegeFrame(ObservableGame observableGame) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -42,6 +54,9 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
         Container cp = getContentPane();
         menu();
 
+        awaitAdditionalActionPointsSelectionPanel = new AwaitAdditionalActionPointsSelectionPanel(observableGame);
+        cp.add(awaitAdditionalActionPointsSelectionPanel);
+
         //Panel
         setLocation(x, y);
         setSize(width, height);
@@ -55,6 +70,9 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        IStates state = observableGame.getState();
+        load.setEnabled(state instanceof AwaitBegining);
+        save.setEnabled(state instanceof AwaitTopCardToBeDrawn);
     }
 
     private void menu() {
@@ -65,19 +83,22 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
         JMenu gameMenu = new JMenu("Game");
         gameMenu.setMnemonic(KeyEvent.VK_G);
 
-        JMenuItem load = new JMenuItem("Load");
+        load = new JMenuItem("Load");
         load.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
         load.setMnemonic(KeyEvent.VK_L);
+        load.addActionListener(new LoadMenuItemListener());
         gameMenu.add(load);
 
-        JMenuItem save = new JMenuItem("Save");
+        save = new JMenuItem("Save");
         save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
         save.setMnemonic(KeyEvent.VK_S);
+        save.addActionListener(new SaveMenuItemListener());
         gameMenu.add(save);
 
         JMenuItem exit = new JMenuItem("Exit");
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
         exit.setMnemonic(KeyEvent.VK_E);
+        exit.addActionListener(new ExitMenuItemListener());
         gameMenu.add(exit);
 
         menuBar.add(gameMenu);
@@ -86,22 +107,73 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
         JMenu helpMenu = new JMenu("Help");
         helpMenu.setMnemonic(KeyEvent.VK_H);
 
-        
         JMenuItem about = new JMenuItem("About");
         about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
         about.setMnemonic(KeyEvent.VK_A);
         about.addActionListener(new AboutMenuItemListener());
         helpMenu.add(about);
-        
+
         menuBar.add(helpMenu);
     }
-    
-    private class AboutMenuItemListener implements ActionListener{
+
+    private class LoadMenuItemListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                  JOptionPane.showMessageDialog(NineCardSiegeFrame.this, "9 Card Siege\n\nTiago Pimentel\n21230519\n\n© 2018 ISEC \nAll Rights Reserved",
-                          "About", JOptionPane.INFORMATION_MESSAGE);}
-        
+            JFileChooser fc = new JFileChooser("./data");
+            int returnVal = fc.showOpenDialog(NineCardSiegeFrame.this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                try {
+                    GameModel gameModel = (GameModel) FileUtility.loadGameFromFile(file);
+                    if (gameModel != null) {
+                        observableGame.setGameModel(gameModel);
+                    }
+                } catch (IOException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(NineCardSiegeFrame.this, "Operation failed: \r\n\r\n" + e);
+                }
+
+            } else {
+                System.out.println("Operation canceled ");
+            }
+        }
+    }
+
+    private class SaveMenuItemListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser fc = new JFileChooser("./data");
+            int returnVal = fc.showSaveDialog(NineCardSiegeFrame.this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                try {
+                    FileUtility.saveGameToFile(file, observableGame.getGameModel());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(NineCardSiegeFrame.this, "Operation failed: \r\n\r\n" + e);
+                }
+            } else {
+                System.out.println("Operation canceled ");
+            }
+        }
+
+    }
+
+    private class ExitMenuItemListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
+    }
+
+    private class AboutMenuItemListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(NineCardSiegeFrame.this, "9 Card Siege\n\nTiago Pimentel\n21230519\n\n© 2018 ISEC \nAll Rights Reserved",
+                    "About", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }
 }
