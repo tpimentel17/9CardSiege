@@ -23,6 +23,7 @@ public class ObservableGame extends Observable {
         notifyAll();
     }
 
+    // -----------------------------------  Métodos de acesso aos dados/estado do jogo ----------------------------------- 
     public GameData getGameData() {
         return gameModel.getGameData();
     }
@@ -31,17 +32,8 @@ public class ObservableGame extends Observable {
         return gameModel.getState();
     }
 
-    
     public boolean boiledWaterWasUsed() {
         return gameModel.boiledWaterWasUsed();
-    }
-
-    public int getNumberOfEnemiesInCircleSpaces() {
-        return gameModel.getNumberOfEnemiesInCircleSpaces();
-    }
-    
-    public int getNumberOfEnemiesInCloseCombat() {
-        return gameModel.getNumberOfEnemiesInCloseCombat();
     }
 
     public boolean freeMovementWaterWasUsed() {
@@ -51,22 +43,16 @@ public class ObservableGame extends Observable {
     public boolean additionalActionalActionPointWasUsed() {
         return gameModel.additionalActionalActionPointWasUsed();
     }
-    
-    public int getSoldiersLocation() {
-        return gameModel.getSoldiersLocation();
+
+    public PlayerTracks getPlayerTracks() {
+        return gameModel.getPlayerTracks();
     }
-    
-    public int getMoralePoints(){
-        return gameModel.getMoralePoints();
+
+    public EnemyTracks getEnemyTracks() {
+        return gameModel.getEnemyTracks();
     }
-    
-    public int getSuppliesPoints(){
-        return gameModel.getSuppliesPoints();
-    }
-    
-    
-    
-    //------------------------------ Methods that enable accessing the data/status of the game ----------------------------
+
+    // ----------------------------------- Transição de estados -----------------------------------
     public void startGame() {
         gameModel.startGame();
 

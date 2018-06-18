@@ -7,6 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import logic.Constants;
 import static logic.Constants.*;
@@ -14,9 +15,11 @@ import logic.ObservableGame;
 import logic.states.AwaitPlayerActionSelection;
 
 public class AwaitPlayerActionSelectionPanel extends JPanel implements Observer {
-    
+
     private ObservableGame observableGame;
-    
+
+    private JLabel label;
+
     private JButton additionalActionPointsButton;
     private JButton archersAttackButton;
     private JButton boilingWaterAttackButton;
@@ -26,30 +29,32 @@ public class AwaitPlayerActionSelectionPanel extends JPanel implements Observer 
     private JButton tunnelMovementButton;
     private JButton supplyRaidButton;
     private JButton sabotageButton;
-    
+
     public AwaitPlayerActionSelectionPanel(ObservableGame observableGame) {
-        
+
         this.observableGame = observableGame;
         this.observableGame.addObserver(this);
-        
+
         setupComponents();
         setupLayout();
-        
+
         update(observableGame, null);
     }
-    
+
     @Override
     public void update(Observable o, Object arg) {
         setVisible(observableGame.getState() instanceof AwaitPlayerActionSelection);
         additionalActionPointsButton.setEnabled(!observableGame.additionalActionalActionPointWasUsed());
-        boilingWaterAttackButton.setEnabled(!observableGame.boiledWaterWasUsed() && observableGame.getNumberOfEnemiesInCircleSpaces() > 0);
-        closeCombatButton.setEnabled(observableGame.getNumberOfEnemiesInCloseCombat() > 0);
-        supplyRaidButton.setEnabled(observableGame.getSoldiersLocation() == ENEMY_LINES);
-        sabotageButton.setEnabled(observableGame.getSoldiersLocation() == ENEMY_LINES);
+        boilingWaterAttackButton.setEnabled(!observableGame.boiledWaterWasUsed() && observableGame.getEnemyTracks().getNumberOfUnitsInCircleSpaces() > 0);
+        closeCombatButton.setEnabled(observableGame.getEnemyTracks().getNumberOfUnitsInCloseCombat() > 0);
+        supplyRaidButton.setEnabled(observableGame.getPlayerTracks().getSoldiersLocation() == ENEMY_LINES);
+        sabotageButton.setEnabled(observableGame.getPlayerTracks().getSoldiersLocation() == ENEMY_LINES);
     }
-    
+
     private void setupComponents() {
-        
+
+        label = new JLabel("Action Points: " + observableGame.getGameData().getCurrentActionPoints());
+
         additionalActionPointsButton = new JButton("Additional Action Points");
         additionalActionPointsButton.addActionListener(new AdditionalActionPointsListener());
         //additionalActionPointsButton.setAlignmentX(CENTER_ALIGNMENT);
@@ -65,7 +70,7 @@ public class AwaitPlayerActionSelectionPanel extends JPanel implements Observer 
         closeCombatButton = new JButton("Close Combat");
         closeCombatButton.addActionListener(new CloseCombatListener());
         //closeCombatButton.setAlignmentX(CENTER_ALIGNMENT);
-        
+
         coupureButton = new JButton("Coupure");
         coupureButton.addActionListener(new CoupureListener());
         //coupureButton.setAlignmentX(CENTER_ALIGNMENT);
@@ -86,12 +91,14 @@ public class AwaitPlayerActionSelectionPanel extends JPanel implements Observer 
         sabotageButton.addActionListener(new SabotageListener());
         //sabotageButton.setAlignmentX(CENTER_ALIGNMENT);
     }
-    
+
     private void setupLayout() {
         JPanel panel = new JPanel();
-        
+
         panel.setLayout(new GridLayout(0, 1));
-        
+
+        panel.add(Box.createVerticalGlue());
+        panel.add(label);
         panel.add(Box.createVerticalGlue());
         panel.add(additionalActionPointsButton);
         panel.add(Box.createVerticalGlue());
@@ -111,92 +118,92 @@ public class AwaitPlayerActionSelectionPanel extends JPanel implements Observer 
         panel.add(Box.createVerticalGlue());
         panel.add(sabotageButton);
         panel.add(Box.createVerticalGlue());
-        
+
         add(Box.createHorizontalGlue());
         add(panel);
         add(Box.createHorizontalGlue());
-        
+
     }
-    
+
     private class AdditionalActionPointsListener implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             observableGame.additionalActionPointsSelected();
         }
-        
+
     }
-    
+
     private class ArchersAttackListener implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             observableGame.archersAttack();
         }
-        
+
     }
-    
+
     private class BoilingWaterAttackListener implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             observableGame.boilingWaterAttack();
         }
-        
+
     }
-    
+
     private class CloseCombatListener implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             observableGame.closeCombat();
         }
-        
+
     }
-    
+
     private class CoupureListener implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             observableGame.coupure();
         }
-        
+
     }
-    
+
     private class RallyTroopsListener implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             observableGame.rallyTroopsOptions();
         }
-        
+
     }
-    
+
     private class TunnelMovementListener implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             observableGame.tunnelMovement();
         }
-        
+
     }
-    
+
     private class SupplyRaidListener implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             observableGame.supplyRaid();
         }
-        
+
     }
-    
+
     private class SabotageListener implements ActionListener {
-        
+
         @Override
         public void actionPerformed(ActionEvent e) {
             observableGame.sabotage();
         }
-        
+
     }
-    
+
 }

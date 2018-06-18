@@ -1,6 +1,7 @@
 package ui.gui;
 
 import files.FileUtility;
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.Box;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -31,7 +33,7 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
     private JMenuItem load;
     private JMenuItem save;
 
-    private AwaitAdditionalActionPointsSelectionPanel awaitAdditionalActionPointsSelectionPanel;
+    private TracksPanel tracksPanel;
 
     public NineCardSiegeFrame(ObservableGame observableGame) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -53,9 +55,11 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
 
         Container cp = getContentPane();
         menu();
+        
+        cp.add(new DayPanel(observableGame), BorderLayout.NORTH);
+        cp.add(new TracksPanel(observableGame), BorderLayout.CENTER);
+        cp.add(new DeckPanel(observableGame), BorderLayout.WEST);
 
-        awaitAdditionalActionPointsSelectionPanel = new AwaitAdditionalActionPointsSelectionPanel(observableGame);
-        cp.add(awaitAdditionalActionPointsSelectionPanel);
 
         //Panel
         setLocation(x, y);

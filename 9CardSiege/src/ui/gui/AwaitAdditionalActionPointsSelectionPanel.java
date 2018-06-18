@@ -34,9 +34,9 @@ public class AwaitAdditionalActionPointsSelectionPanel extends JPanel implements
 
     @Override
     public void update(Observable o, Object arg) {
-        //setVisible(observableGame.getState() instanceof AwaitAdditionalActionPointsSelection);
-        moraleButton.setEnabled(observableGame.getMoralePoints() > 0);
-        supplyButton.setEnabled(observableGame.getSuppliesPoints() > 0);
+        setVisible(observableGame.getState() instanceof AwaitAdditionalActionPointsSelection);
+        moraleButton.setEnabled(observableGame.getPlayerTracks().getMorale() > 0);
+        supplyButton.setEnabled(observableGame.getPlayerTracks().getSupplies() > 0);
     }
 
     private void setupComponents() {

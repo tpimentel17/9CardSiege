@@ -44,14 +44,6 @@ public class GameModel implements Serializable {
         return gameData.boiledWaterWasUsed();
     }
 
-    public int getNumberOfEnemiesInCircleSpaces() {
-        return gameData.getNumberOfEnemiesInCircleSpaces();
-    }
-    
-    public int getNumberOfEnemiesInCloseCombat() {
-        return gameData.getNumberOfEnemiesInCloseCombat();
-    }
-
     public boolean freeMovementWaterWasUsed() {
         return gameData.freeMovementWaterWasUsed();
     }
@@ -60,18 +52,13 @@ public class GameModel implements Serializable {
         return gameData.additionalActionalActionPointWasUsed();
     }
     
-    public int getSoldiersLocation() {
-        return gameData.getSoldiersLocation();
+    public PlayerTracks getPlayerTracks(){
+        return gameData.getPlayerTracks();
     }
     
-    public int getMoralePoints(){
-        return gameData.getMoralePoints();
+    public EnemyTracks getEnemyTracks(){
+        return gameData.getEnemyTracks();
     }
-    
-    public int getSuppliesPoints(){
-        return gameData.getSuppliesPoints();
-    }
-    
     
     public ArrayList<String> getMessageLog(){
         return gameData.getMessageLog();
@@ -81,6 +68,8 @@ public class GameModel implements Serializable {
         gameData.clearMessageLog();
     }
     
+    
+    // ----------------------------------- Transição de estados ----------------------------------- 
     public void startGame() {
         setState(getState().startGame());
     }

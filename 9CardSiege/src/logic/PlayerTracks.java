@@ -3,7 +3,7 @@ package logic;
 import java.io.Serializable;
 import static logic.Constants.*;
 
-public class PlayerStats implements Serializable {
+public class PlayerTracks implements Serializable {
     
     private GameData gameData;
     private int wallStrength;
@@ -13,7 +13,7 @@ public class PlayerStats implements Serializable {
     private int lastTunnelPosition;
     private int numberOfRaidedSupplies;
     
-    public PlayerStats(GameData gameData) {
+    public PlayerTracks(GameData gameData) {
         this.gameData = gameData;
         wallStrength = 4;
         morale = 4;

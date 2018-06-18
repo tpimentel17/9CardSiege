@@ -458,13 +458,13 @@ public class TextUI {
         System.out.println();
         System.out.println("****Status Tracks****");
         System.out.println();
-        System.out.println("Wall Strength -> " + gameModel.getGameData().getPlayerStats().getWallStrength());
-        System.out.println("Morale -> " + gameModel.getGameData().getPlayerStats().getMorale());
-        System.out.println("Supplies -> " + gameModel.getGameData().getPlayerStats().getSupplies());
+        System.out.println("Wall Strength -> " + gameModel.getGameData().getPlayerTracks().getWallStrength());
+        System.out.println("Morale -> " + gameModel.getGameData().getPlayerTracks().getMorale());
+        System.out.println("Supplies -> " + gameModel.getGameData().getPlayerTracks().getSupplies());
         System.out.println();
         System.out.println("Soldiers Position:");
         
-        switch (gameModel.getGameData().getPlayerStats().getSoldiersLocation()) {
+        switch (gameModel.getGameData().getPlayerTracks().getSoldiersLocation()) {
             case CASTLE:
                 System.out.println("Castle [x| : | ] EnemyLines");
                 break;
@@ -478,7 +478,7 @@ public class TextUI {
                 System.out.println("Castle [ | : |x] EnemyLines");
                 break;
         }
-        System.out.print("Raided Supplies -> " + gameModel.getGameData().getPlayerStats().getNumberOfRaidedSupplies());
+        System.out.print("Raided Supplies -> " + gameModel.getGameData().getPlayerTracks().getNumberOfRaidedSupplies());
     }
     
     private void showEnemyTracks() {

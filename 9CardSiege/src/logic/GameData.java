@@ -11,7 +11,7 @@ public class GameData implements Serializable {
     private int gameStatus;
     private int currentDay;
     private int currentActionPoints;
-    private PlayerStats playerStats;
+    private PlayerTracks playerTracks;
     private EnemyTracks enemyTracks;
     private Die die;
     private ArrayList<Card> deck;
@@ -32,7 +32,7 @@ public class GameData implements Serializable {
         messageLog = new ArrayList<>();
         die = new Die(this);
         drawnCards = new ArrayList<>(7);
-        playerStats = new PlayerStats(this);
+        playerTracks = new PlayerTracks(this);
         enemyTracks = new EnemyTracks(this);
         deck = new ArrayList<>(7);
 
@@ -68,8 +68,8 @@ public class GameData implements Serializable {
         return currentActionPoints;
     }
 
-    public PlayerStats getPlayerStats() {
-        return playerStats;
+    public PlayerTracks getPlayerTracks() {
+        return playerTracks;
     }
 
     public EnemyTracks getEnemyTracks() {
@@ -109,16 +109,17 @@ public class GameData implements Serializable {
     }
 
     public int getSoldiersLocation() {
-        return playerStats.getSoldiersLocation();
+        return playerTracks.getSoldiersLocation();
     }
     
     public int getMoralePoints(){
-        return playerStats.getMorale();
+        return playerTracks.getMorale();
     }
     
     public int getSuppliesPoints(){
-        return playerStats.getSupplies();
+        return playerTracks.getSupplies();
     }
+    
 
     // </editor-fold>
     
@@ -145,11 +146,11 @@ public class GameData implements Serializable {
 
         return gameStatus;
     }
-
     //</editor-fold>
+    
     // <editor-fold desc="PRIVATE METHODS">
     private boolean endOfTurnLossCheck() {
-        return enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerStats.getNumberOfZeroStats() > 0;
+        return enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerTracks.getNumberOfZeroStats() > 0;
     }
 
     private void reshuffleDeck() {
@@ -161,19 +162,19 @@ public class GameData implements Serializable {
 
     private boolean endOfDayCheck() {
         if (deck.isEmpty()) {
-            playerStats.reduceSupplies(1);
+            playerTracks.reduceSupplies(1);
             currentDay++;
             reshuffleDeck();
 
-            if (playerStats.getSoldiersLocation() != ENEMY_LINES) {
-                playerStats.addSupplies(playerStats.getNumberOfRaidedSupplies());
-                playerStats.clearRaidedSupplies();
-                playerStats.moveSoldiers(CASTLE);
+            if (playerTracks.getSoldiersLocation() != ENEMY_LINES) {
+                playerTracks.addSupplies(playerTracks.getNumberOfRaidedSupplies());
+                playerTracks.clearRaidedSupplies();
+                playerTracks.moveSoldiers(CASTLE);
             } else {
                 captureSoldiersProcedure();
             }
 
-            if (playerStats.getSupplies() == 0 || playerStats.getMorale() == 0) {
+            if (playerTracks.getSupplies() == 0 || playerTracks.getMorale() == 0) {
                 gameStatus = DEFEAT;
             } else if (currentDay == 3) {
                 gameStatus = VICTORY;
@@ -198,9 +199,9 @@ public class GameData implements Serializable {
 
     private void captureSoldiersProcedure() {
         addMessageLog("Your Soldiers were captured!\n");
-        playerStats.clearRaidedSupplies();
-        playerStats.moveSoldiers(CASTLE);
-        playerStats.reduceMorale();
+        playerTracks.clearRaidedSupplies();
+        playerTracks.moveSoldiers(CASTLE);
+        playerTracks.reduceMorale();
     }
 
     private void archersAttack(String selectedTrack) {
@@ -261,7 +262,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();
+                    playerTracks.reduceMorale();
                 }
                 if (die.getValue() + 1 > 2) {
                     enemyTracks.moveBackwards(LADDERS);
@@ -278,7 +279,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();
+                    playerTracks.reduceMorale();
                 }
                 if (die.getValue() + 1 > 3) {
                     enemyTracks.moveBackwards(BATTERING_RAM);
@@ -295,7 +296,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();
+                    playerTracks.reduceMorale();
                 }
                 if (die.getValue() + 1 > 4) {
                     enemyTracks.moveBackwards(SIEGE_TOWER);
@@ -319,7 +320,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();
+                    playerTracks.reduceMorale();
                 }
                 if (die.getValue() > 4) {
                     enemyTracks.moveBackwards(LADDERS);
@@ -337,7 +338,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();
+                    playerTracks.reduceMorale();
                 }
                 if (die.getValue() > 4) {
                     enemyTracks.moveBackwards(BATTERING_RAM);
@@ -354,7 +355,7 @@ public class GameData implements Serializable {
                 currentActionPoints--;
                 die.roll();
                 if (die.getValue() == 1) {
-                    playerStats.reduceMorale();
+                    playerTracks.reduceMorale();
                 }
                 if (die.getValue() > 4) {
                     enemyTracks.moveBackwards(SIEGE_TOWER);
@@ -385,14 +386,14 @@ public class GameData implements Serializable {
                 case 1:
                     die.roll();
                     if (die.getValue() > 3) {
-                        playerStats.damageWall(1);
+                        playerTracks.damageWall(1);
                     }
                     break;
                 case 2:
-                    playerStats.damageWall(1);
+                    playerTracks.damageWall(1);
                     break;
                 case 3:
-                    playerStats.damageWall(2);
+                    playerTracks.damageWall(2);
                     break;
             }
         } else {
@@ -403,41 +404,41 @@ public class GameData implements Serializable {
                     case LADDERS:
                         enemyTracks.moveForward(LADDERS);
                         if (enemyTracks.getLaddersPosition() == 0) {
-                            playerStats.reduceMorale();
+                            playerTracks.reduceMorale();
                         }
                         break;
 
                     case BATTERING_RAM:
                         enemyTracks.moveForward(BATTERING_RAM);
                         if (enemyTracks.getRamPosition() == 0) {
-                            playerStats.reduceMorale();
+                            playerTracks.reduceMorale();
                         }
                         break;
 
                     case SIEGE_TOWER:
                         enemyTracks.moveForward(SIEGE_TOWER);
                         if (enemyTracks.getTowerPosition() == 0) {
-                            playerStats.reduceMorale();
+                            playerTracks.reduceMorale();
                         }
                         break;
 
                     case SLOWEST_UNIT:
                         enemyTracks.moveForward(SLOWEST_UNIT);
                         if (enemyTracks.getLaddersPosition() == 0) {
-                            playerStats.reduceMorale();
+                            playerTracks.reduceMorale();
                         }
                         if (enemyTracks.getRamPosition() == 0) {
-                            playerStats.reduceMorale();
+                            playerTracks.reduceMorale();
                         }
                         if (enemyTracks.getTowerPosition() == 0) {
-                            playerStats.reduceMorale();
+                            playerTracks.reduceMorale();
                         }
                         break;
                 }
             }
         }
 
-        if (enemyTracks.getNumberOfUnitsInCloseCombat() > 2 || playerStats.getNumberOfZeroStats() > 1) {
+        if (enemyTracks.getNumberOfUnitsInCloseCombat() > 2 || playerTracks.getNumberOfZeroStats() > 1) {
             gameFinish = true;
         }
 
@@ -496,7 +497,7 @@ public class GameData implements Serializable {
         currentActionPoints--;
         die.roll();
         if (die.getValue() > 4) {
-            playerStats.repairWall();
+            playerTracks.repairWall();
         }
     }
 
@@ -512,13 +513,13 @@ public class GameData implements Serializable {
         currentActionPoints--;
         die.roll();
         if (drm) {
-            playerStats.reduceSupplies(1);
+            playerTracks.reduceSupplies(1);
             if (die.getValue() + 1 > 4) {
-                playerStats.increaseMorale();
+                playerTracks.increaseMorale();
             }
         } else {
             if (die.getValue() > 4) {
-                playerStats.increaseMorale();
+                playerTracks.increaseMorale();
             }
         }
     }
@@ -536,7 +537,7 @@ public class GameData implements Serializable {
         switch (movementType) {
 
             case MOVE_INTO_TUNNEL:
-                result = playerStats.moveIntoTunnel();
+                result = playerTracks.moveIntoTunnel();
                 if (result) {
                     currentActionPoints--;
                     freeMovementWasUsed = true;
@@ -544,7 +545,7 @@ public class GameData implements Serializable {
                 return result;
             case FREE_MOVEMENT:
                 if (!freeMovementWasUsed) {
-                    result = playerStats.freeMovement();
+                    result = playerTracks.freeMovement();
                     if (result) {
                         freeMovementWasUsed = true;
                     }
@@ -554,7 +555,7 @@ public class GameData implements Serializable {
                         + "were already performed this turn!");
                 return false;
             case FAST_MOVEMENT:
-                playerStats.fastMovement();
+                playerTracks.fastMovement();
                 currentActionPoints--;
                 return true;
         }
@@ -562,7 +563,7 @@ public class GameData implements Serializable {
     }
 
     public boolean supplyRaid() {
-        if (playerStats.getSoldiersLocation() != ENEMY_LINES) {
+        if (playerTracks.getSoldiersLocation() != ENEMY_LINES) {
             addMessageLog("[INVALID ACTION] Soldiers need to be behind the enemy lines to raid supplies!");
             return false;
         }
@@ -571,9 +572,9 @@ public class GameData implements Serializable {
         die.roll();
 
         if (die.getValue() == 6) {
-            playerStats.addRaidedSupplies(2);
+            playerTracks.addRaidedSupplies(2);
         } else if (die.getValue() >= 3 && die.getValue() <= 5) {
-            playerStats.addRaidedSupplies(1);
+            playerTracks.addRaidedSupplies(1);
         } else if (die.getValue() == 1) {
             addMessageLog("The supply raid wasn't successful.");
             captureSoldiersProcedure();
@@ -585,7 +586,7 @@ public class GameData implements Serializable {
     }
 
     public boolean sabotage() {
-        if (playerStats.getSoldiersLocation() != ENEMY_LINES) {
+        if (playerTracks.getSoldiersLocation() != ENEMY_LINES) {
             addMessageLog("[INVALID ACTION] Soldiers need to be behind the enemy lines to sabotage the enemy trebuchets!");
             return false;
         }
@@ -620,7 +621,7 @@ public class GameData implements Serializable {
             return false;
         }
 
-        if (playerStats.getSupplies() == 0 && playerStats.getMorale() == 0) {
+        if (playerTracks.getSupplies() == 0 && playerTracks.getMorale() == 0) {
             addMessageLog("[INVALID ACTION] You don't have enough Morale nor Supply points to perform this action!");
             return false;
         }
@@ -630,19 +631,19 @@ public class GameData implements Serializable {
     public boolean additionalActionPoint(int point) {
 
         if (point == MORALE) {
-            if (playerStats.getMorale() == 0) {
+            if (playerTracks.getMorale() == 0) {
                 addMessageLog("[INVALID ACTION] You don't have enough Morale points to perform this action!");
                 return false;
             }
-            playerStats.reduceMorale();
+            playerTracks.reduceMorale();
             currentActionPoints++;
             additionalActionalActionPointWasUsed = true;
         } else {
-            if (playerStats.getSupplies() == 0) {
+            if (playerTracks.getSupplies() == 0) {
                 addMessageLog("[INVALID ACTION] You don't have enough Supply points to perform this action!");
                 return false;
             }
-            playerStats.reduceSupplies(1);
+            playerTracks.reduceSupplies(1);
             currentActionPoints++;
             additionalActionalActionPointWasUsed = true;
         }
