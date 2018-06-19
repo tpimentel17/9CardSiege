@@ -1,5 +1,6 @@
 package ui.gui;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,8 @@ public class AwaitTopCardToBeDrawnPanel extends JPanel implements Observer {
 
         setupComponents();
         setupLayout();
+
+        setBackground(Color.GRAY);
 
         update(observableGame, null);
     }
@@ -52,10 +55,10 @@ public class AwaitTopCardToBeDrawnPanel extends JPanel implements Observer {
         panel.add(Box.createVerticalGlue());
         panel.add(drawCard);
         panel.add(Box.createVerticalGlue());
-        
-        add(Box.createHorizontalGlue());
+
+        panel.setBackground(Color.GRAY);
+
         add(panel);
-        add(Box.createHorizontalGlue());
     }
 
 }

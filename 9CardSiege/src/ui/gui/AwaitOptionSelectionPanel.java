@@ -1,5 +1,6 @@
 package ui.gui;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +17,7 @@ public class AwaitOptionSelectionPanel extends JPanel implements Observer {
 
     private ObservableGame observableGame;
 
-    private JLabel label;
+    private JLabel label1, label2, label3;
     private JButton yesButton;
     private JButton noButton;
 
@@ -28,18 +29,22 @@ public class AwaitOptionSelectionPanel extends JPanel implements Observer {
         setupComponents();
         setupLayout();
 
+        setBackground(Color.GRAY);
+
         update(observableGame, null);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         setVisible(observableGame.getState() instanceof AwaitOptionSelection);
+
     }
 
     private void setupComponents() {
 
-        label = new JLabel("You can spend 1 supplie to have a bigger chance of improving your people's Morale. "
-                + "\nDo you wish to do it?");
+        label1 = new JLabel("You can spend 1 supply to have a bigger");
+        label2 = new JLabel("chance of improving your people's Morale.");
+        label3 = new JLabel("Do you wish to do it?");
 
         yesButton = new JButton("Yes");
         yesButton.addActionListener(new ActionListener() {
@@ -63,18 +68,20 @@ public class AwaitOptionSelectionPanel extends JPanel implements Observer {
         JPanel panel = new JPanel();
 
         panel.setLayout(new GridLayout(0, 1));
-        
+
         panel.add(Box.createVerticalGlue());
-        panel.add(label);
+        panel.add(label1);
+        panel.add(label2);
+        panel.add(label3);
         panel.add(Box.createVerticalGlue());
         panel.add(yesButton);
         panel.add(Box.createVerticalGlue());
         panel.add(noButton);
         panel.add(Box.createVerticalGlue());
-        
-        add(Box.createHorizontalGlue());
+
+        panel.setBackground(Color.GRAY);
+
         add(panel);
-        add(Box.createHorizontalGlue());
     }
 
 }

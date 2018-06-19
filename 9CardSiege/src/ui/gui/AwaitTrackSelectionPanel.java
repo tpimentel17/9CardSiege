@@ -1,5 +1,6 @@
 package ui.gui;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +31,8 @@ public class AwaitTrackSelectionPanel extends JPanel implements Observer {
         setupComponents();
         setupLayout();
 
+        setBackground(Color.GRAY);
+
         update(observableGame, null);
     }
 
@@ -40,30 +43,29 @@ public class AwaitTrackSelectionPanel extends JPanel implements Observer {
 
     private void setupComponents() {
         label = new JLabel("Select the track to attack:");
-       
-        
+
         laddersButton = new JButton("Ladders");
         laddersButton.addActionListener((ActionEvent e) -> {
             observableGame.attackSelectedTrack(LADDERS);
         });
-        
+
         batteringRamButton = new JButton("Battering Ram");
         batteringRamButton.addActionListener((ActionEvent e) -> {
             observableGame.attackSelectedTrack(BATTERING_RAM);
         });
-        
+
         siegeTowerButton = new JButton("Siege Tower");
         siegeTowerButton.addActionListener((ActionEvent e) -> {
             observableGame.attackSelectedTrack(SIEGE_TOWER);
         });
-        
+
     }
 
     private void setupLayout() {
         JPanel panel = new JPanel();
-        
+
         panel.setLayout(new GridLayout(0, 1));
-        
+
         panel.add(Box.createVerticalGlue());
         panel.add(label);
         panel.add(Box.createVerticalGlue());
@@ -73,10 +75,10 @@ public class AwaitTrackSelectionPanel extends JPanel implements Observer {
         panel.add(Box.createVerticalGlue());
         panel.add(siegeTowerButton);
         panel.add(Box.createVerticalGlue());
-        
-        add(Box.createHorizontalGlue());
+
+        panel.setBackground(Color.GRAY);
+
         add(panel);
-        add(Box.createHorizontalGlue());
-        
+
     }
 }

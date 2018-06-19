@@ -25,7 +25,7 @@ public class GameData implements Serializable {
     private ArrayList<String> messageLog;
 
     public GameData() {
-        initialize();
+       initialize();
     }
 
     public final boolean initialize() {
@@ -100,7 +100,7 @@ public class GameData implements Serializable {
         return enemyTracks.getNumberOfUnitsInCloseCombat();
     }
 
-    public boolean freeMovementWaterWasUsed() {
+    public boolean freeMovementWasUsed() {
         return freeMovementWasUsed;
     }
 

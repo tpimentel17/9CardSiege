@@ -1,5 +1,6 @@
 package ui.gui;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,8 +25,9 @@ public class AwaitBeginningPanel extends JPanel implements Observer {
         setupComponents();
         setupLayout();
 
-        update(observableGame, null);
+        setBackground(Color.GRAY);
 
+        update(observableGame, null);
     }
 
     @Override
@@ -54,9 +56,10 @@ public class AwaitBeginningPanel extends JPanel implements Observer {
         panel.add(startButton);
         panel.add(Box.createVerticalGlue());
 
-        add(Box.createHorizontalGlue());
+        panel.setBackground(Color.GRAY);
+
+
         add(panel);
-        add(Box.createHorizontalGlue());
     }
 
 }

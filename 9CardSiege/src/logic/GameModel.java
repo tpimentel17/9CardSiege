@@ -44,8 +44,8 @@ public class GameModel implements Serializable {
         return gameData.boiledWaterWasUsed();
     }
 
-    public boolean freeMovementWaterWasUsed() {
-        return gameData.freeMovementWaterWasUsed();
+    public boolean freeMovementWasUsed() {
+        return gameData.freeMovementWasUsed();
     }
 
     public boolean additionalActionalActionPointWasUsed() {

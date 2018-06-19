@@ -29,6 +29,7 @@ public class DayPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        label.setText("9 CARD SIEGE - DAY " + observableGame.getGameData().getCurrentDay());
     }
 
     private void setupComponents() {

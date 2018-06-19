@@ -1,7 +1,6 @@
 package logic;
 
 import java.util.Observable;
-import logic.states.AwaitTrackSelection;
 import logic.states.IStates;
 
 public class ObservableGame extends Observable {
@@ -36,8 +35,8 @@ public class ObservableGame extends Observable {
         return gameModel.boiledWaterWasUsed();
     }
 
-    public boolean freeMovementWaterWasUsed() {
-        return gameModel.freeMovementWaterWasUsed();
+    public boolean freeMovementWasUsed() {
+        return gameModel.freeMovementWasUsed();
     }
 
     public boolean additionalActionalActionPointWasUsed() {
@@ -45,7 +44,9 @@ public class ObservableGame extends Observable {
     }
 
     public PlayerTracks getPlayerTracks() {
+        
         return gameModel.getPlayerTracks();
+        
     }
 
     public EnemyTracks getEnemyTracks() {

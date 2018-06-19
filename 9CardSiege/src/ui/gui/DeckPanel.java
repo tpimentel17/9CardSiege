@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.Observer;
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -36,6 +37,9 @@ public class DeckPanel extends JPanel implements Observer {
     @Override
     public void update(java.util.Observable o, Object arg) {
         setVisible(!(observableGame.getState() instanceof AwaitBegining));
+        label.setText("Remaining Cards: " + observableGame.getGameData().getDeck().size());
+
+        revalidate();
         repaint();
     }
 
@@ -49,31 +53,36 @@ public class DeckPanel extends JPanel implements Observer {
     }
 
     private void drawCard(Graphics g) {
-        Card card = observableGame.getGameData().getDeck().get(0);
+        if (!observableGame.getGameData().getDrawnCards().isEmpty()) {
+            ArrayList drawnCards = observableGame.getGameData().getDrawnCards();
+            Card card = (Card) drawnCards.get(drawnCards.size() - 1);
 
-        if (card instanceof Card1) {
-            g.drawImage(Images.getCard1Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
+            if (card instanceof Card1) {
+                g.drawImage(Images.getCard1Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
 
-        } else if (card instanceof Card2) {
-            g.drawImage(Images.getCard2Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
+            } else if (card instanceof Card2) {
+                g.drawImage(Images.getCard2Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
 
-        } else if (card instanceof Card3) {
-            g.drawImage(Images.getCard3Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
+            } else if (card instanceof Card3) {
+                g.drawImage(Images.getCard3Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
 
-        } else if (card instanceof Card4) {
-            g.drawImage(Images.getCard4Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
+            } else if (card instanceof Card4) {
+                g.drawImage(Images.getCard4Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
 
-        } else if (card instanceof Card5) {
-            g.drawImage(Images.getCard5Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
+            } else if (card instanceof Card5) {
+                g.drawImage(Images.getCard5Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
 
-        } else if (card instanceof Card6) {
-            g.drawImage(Images.getCard6Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
+            } else if (card instanceof Card6) {
+                g.drawImage(Images.getCard6Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
 
-        } else if (card instanceof Card7) {
-            g.drawImage(Images.getCard7Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
+            } else if (card instanceof Card7) {
+                g.drawImage(Images.getCard7Image(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
+
+            }
+        } else {
+            g.drawImage(Images.getCardBackImage(), BORDER_X_GAP, BORDER_Y_GAP, CARD_WIDTH, CARD_HEIGHT, this);
 
         }
-
     }
 
     private void drawDice(Graphics g) {

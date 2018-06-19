@@ -1,5 +1,6 @@
 package ui.gui;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.Observable;
@@ -29,13 +30,22 @@ public class AwaitMovementTypeSelectionPanel extends JPanel implements Observer 
         setupComponents();
         setupLayout();
 
+        setBackground(Color.GRAY);
+
         update(observableGame, null);
     }
 
     @Override
     public void update(Observable o, Object arg) {
+
         setVisible(observableGame.getState() instanceof AwaitMovementTypeSelection);
-        freeMovementButton.setEnabled(!observableGame.freeMovementWaterWasUsed());
+        freeMovementButton.setEnabled(!observableGame.freeMovementWasUsed()
+                && observableGame.getPlayerTracks().getSoldiersLocation() != CASTLE
+                && observableGame.getPlayerTracks().getSoldiersLocation() != ENEMY_LINES);
+        
+        moveIntoTunnelButton.setEnabled(observableGame.getPlayerTracks().getSoldiersLocation() == CASTLE
+                || observableGame.getPlayerTracks().getSoldiersLocation() == ENEMY_LINES);
+
     }
 
     private void setupComponents() {
@@ -50,7 +60,7 @@ public class AwaitMovementTypeSelectionPanel extends JPanel implements Observer 
         freeMovementButton.addActionListener((ActionEvent e) -> {
             observableGame.moveSoldiers(FREE_MOVEMENT);
         });
-        
+
         fastMovementButton = new JButton("Fast Movement");
         fastMovementButton.addActionListener((ActionEvent e) -> {
             observableGame.moveSoldiers(FAST_MOVEMENT);
@@ -62,7 +72,7 @@ public class AwaitMovementTypeSelectionPanel extends JPanel implements Observer 
         JPanel panel = new JPanel();
 
         panel.setLayout(new GridLayout(0, 1));
-        
+
         panel.add(Box.createVerticalGlue());
         panel.add(label);
         panel.add(Box.createVerticalGlue());
@@ -72,9 +82,9 @@ public class AwaitMovementTypeSelectionPanel extends JPanel implements Observer 
         panel.add(Box.createVerticalGlue());
         panel.add(fastMovementButton);
         panel.add(Box.createVerticalGlue());
-       
-        add(Box.createHorizontalGlue());
+
+        panel.setBackground(Color.GRAY);
+
         add(panel);
-        add(Box.createHorizontalGlue());
     }
 }

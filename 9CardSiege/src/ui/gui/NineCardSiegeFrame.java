@@ -2,6 +2,7 @@ package ui.gui;
 
 import files.FileUtility;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -20,6 +21,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.border.LineBorder;
 import logic.Constants;
 import logic.GameModel;
 import logic.ObservableGame;
@@ -32,8 +34,6 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
     private ObservableGame observableGame;
     private JMenuItem load;
     private JMenuItem save;
-
-    private TracksPanel tracksPanel;
 
     public NineCardSiegeFrame(ObservableGame observableGame) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -55,13 +55,38 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
 
         Container cp = getContentPane();
         menu();
-        
-        cp.add(new DayPanel(observableGame), BorderLayout.NORTH);
-        cp.add(new TracksPanel(observableGame), BorderLayout.CENTER);
-        cp.add(new DeckPanel(observableGame), BorderLayout.WEST);
 
+        Box north = Box.createHorizontalBox();
+        north.add(new DayPanel(observableGame));
+        north.setBorder(new LineBorder(Color.BLACK));
+
+        Box west = Box.createHorizontalBox();
+        west.add(new DeckPanel(observableGame));
+        west.setBorder(new LineBorder(Color.BLACK));
+        
+        Box center = Box.createHorizontalBox();
+        center.add(new TracksPanel(observableGame));
+        center.setBorder(new LineBorder(Color.BLACK));
+
+        Box east = Box.createHorizontalBox();
+        east.add(new ActionsPanel(observableGame));
+        east.setBorder(new LineBorder(Color.BLACK));
+
+        Box south = Box.createHorizontalBox();
+        south.add(new AwaitBeginningPanel(observableGame));
+        south.add(new AwaitGameFinishPanel(observableGame));
+        south.setBorder(new LineBorder(Color.BLACK));
+
+        cp.add(north, BorderLayout.NORTH);
+        cp.add(east, BorderLayout.EAST);
+        cp.add(center, BorderLayout.CENTER);
+        cp.add(west, BorderLayout.WEST);
+        cp.add(south, BorderLayout.SOUTH);
+        cp.setBackground(Color.GRAY);
+        
 
         //Panel
+        pack();
         setLocation(x, y);
         setSize(width, height);
         setMinimumSize(new Dimension(width, height));
@@ -132,6 +157,7 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
                     GameModel gameModel = (GameModel) FileUtility.loadGameFromFile(file);
                     if (gameModel != null) {
                         observableGame.setGameModel(gameModel);
+                        JOptionPane.showMessageDialog(NineCardSiegeFrame.this, "Game loaded succesfully");
                     }
                 } catch (IOException | ClassNotFoundException ex) {
                     JOptionPane.showMessageDialog(NineCardSiegeFrame.this, "Operation failed: \r\n\r\n" + e);

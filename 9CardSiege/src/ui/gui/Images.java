@@ -2,13 +2,9 @@ package ui.gui;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-import logic.ObservableGame;
 
-public class Images extends JPanel implements Observer {
+public class Images {
 
     static private BufferedImage card1Image = null;
     static private BufferedImage card2Image = null;
@@ -17,6 +13,7 @@ public class Images extends JPanel implements Observer {
     static private BufferedImage card5Image = null;
     static private BufferedImage card6Image = null;
     static private BufferedImage card7Image = null;
+    static private BufferedImage cardBackImage = null;
 
     static private BufferedImage dice1Image = null;
     static private BufferedImage dice2Image = null;
@@ -37,6 +34,7 @@ public class Images extends JPanel implements Observer {
             card5Image = ImageIO.read(Resources.getResourceFile("images/card5.png"));
             card6Image = ImageIO.read(Resources.getResourceFile("images/card6.png"));
             card7Image = ImageIO.read(Resources.getResourceFile("images/card7.png"));
+            cardBackImage = ImageIO.read(Resources.getResourceFile("images/cardback.png"));
 
             dice1Image = ImageIO.read(Resources.getResourceFile("images/dice1.png"));
             dice2Image = ImageIO.read(Resources.getResourceFile("images/dice2.png"));
@@ -88,6 +86,10 @@ public class Images extends JPanel implements Observer {
         return card7Image;
     }
     
+    public static BufferedImage getCardBackImage() {
+        return cardBackImage;
+    }
+    
     public static BufferedImage getDice1Image() {
         return dice1Image;
     }
@@ -110,12 +112,6 @@ public class Images extends JPanel implements Observer {
 
     public static BufferedImage getDice6Image() {
         return dice6Image;
-    }
-    
-
-    @Override
-    public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
