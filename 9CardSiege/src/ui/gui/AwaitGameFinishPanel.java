@@ -39,17 +39,17 @@ public class AwaitGameFinishPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         setVisible(observableGame.getState() instanceof AwaitGameFinish);
+        if (observableGame.getState() instanceof AwaitGameFinish) {
+            if (((AwaitGameFinish) observableGame.getState()).getResult() == VICTORY) {
+                label1.setText("Congratulations! You have survived the siege!");
+            } else {
+                label1.setText("You've been defeated by your enemey!");
+            }
+        }
     }
 
     private void setupComponents() {
         label1 = new JLabel();
-        if (observableGame.getState() instanceof AwaitGameFinish) {
-            if (((AwaitGameFinish) observableGame.getState()).getResult() == VICTORY) {
-                label1 = new JLabel("Congratulations! You have survived the siege!");
-            } else {
-                label1 = new JLabel("You've been defeated by your enemey!");
-            }
-        }
 
         label2 = new JLabel("Do you want to start a new game?");
 
@@ -78,13 +78,12 @@ public class AwaitGameFinishPanel extends JPanel implements Observer {
         box.add(noButton);
         box.add(Box.createHorizontalGlue());
 
-        panel.add(Box.createVerticalGlue());
+
         panel.add(label1);
-        panel.add(Box.createVerticalGlue());
         panel.add(label2);
         panel.add(Box.createVerticalGlue());
         panel.add(box);
-        panel.add(Box.createVerticalGlue());
+
 
         add(panel);
 

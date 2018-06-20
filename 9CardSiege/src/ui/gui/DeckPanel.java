@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import static logic.Constants.*;
 import logic.ObservableGame;
 import logic.cards.*;
-import logic.states.AwaitBegining;
 
 public class DeckPanel extends JPanel implements Observer {
 
@@ -36,7 +35,7 @@ public class DeckPanel extends JPanel implements Observer {
 
     @Override
     public void update(java.util.Observable o, Object arg) {
-        setVisible(!(observableGame.getState() instanceof AwaitBegining));
+        setVisible(true);
         label.setText("Remaining Cards: " + observableGame.getGameData().getDeck().size());
 
         revalidate();

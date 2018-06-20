@@ -10,14 +10,14 @@ import logic.Constants;
 import static logic.Constants.*;
 import logic.ObservableGame;
 
-public class ActionsPanel extends JPanel {
+public class ActionsPanel extends JPanel implements Observer{
 
-    //private ObservableGame observableGame;
+    private ObservableGame observableGame;
 
     public ActionsPanel(ObservableGame observableGame) {
 
-        //this.observableGame = observableGame;
-        //this.observableGame.addObserver(this);
+       this.observableGame = observableGame;
+       this.observableGame.addObserver(this);
 
         add(Box.createHorizontalGlue());
         add(new AwaitAdditionalActionPointsSelectionPanel(observableGame));
@@ -33,6 +33,10 @@ public class ActionsPanel extends JPanel {
         setPreferredSize(new Dimension(ACTIONS_WIDTH, CENTER_PANEL_HEIGHT));
         setMinimumSize(new Dimension(ACTIONS_WIDTH, CENTER_PANEL_HEIGHT));
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
     }
 
 }

@@ -68,7 +68,7 @@ public interface Constants {
     public static final int ENEMY_COL_ANCHOR = TREBUCHET_COL_ANCHOR;
     public static final int ENEMY_ROW_ANCHOR = TREBUCHET_ROW_ANCHOR - 92;
     public static final int ENEMY_COL_DISPLACEMENT = CARD_COL_DISPLACEMENT + 6;
-    
+
     public static final int CLOSE_COMBAT_ROW_DISPLACEMENT = 72;
     public static final int CLOSE_COMBAT_COL_DISPLACEMENT = 25;
 
@@ -90,7 +90,10 @@ public interface Constants {
     //TOKEN DIMENSIONS
     public static final int TOKEN_RADIUS = 30;
 
+    //LOG PANEL DIMENSIONS
+    public static final int LOG_PANEL_HEIGHT = 2 * BORDER_Y_GAP + 50;
+
     //WINDOW DIMENSIONS
     public static final int FRAME_WIDTH = ACTIONS_WIDTH + DECK_WIDTH + TRACK_WIDTH + 24;
-    public static final int FRAME_HEIGHT = 950;
+    public static final int FRAME_HEIGHT = LOG_PANEL_HEIGHT + CENTER_PANEL_HEIGHT + 100;
 }

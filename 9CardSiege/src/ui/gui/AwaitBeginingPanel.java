@@ -12,13 +12,13 @@ import javax.swing.JPanel;
 import logic.ObservableGame;
 import logic.states.AwaitBegining;
 
-public class AwaitBeginningPanel extends JPanel implements Observer {
+public class AwaitBeginingPanel extends JPanel implements Observer {
 
     private ObservableGame observableGame;
 
     JButton startButton;
 
-    public AwaitBeginningPanel(ObservableGame observableGame) {
+    public AwaitBeginingPanel(ObservableGame observableGame) {
         this.observableGame = observableGame;
         this.observableGame.addObserver(this);
 

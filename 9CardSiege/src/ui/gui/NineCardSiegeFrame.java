@@ -73,8 +73,7 @@ public class NineCardSiegeFrame extends JFrame implements Constants, Observer {
         east.setBorder(new LineBorder(Color.BLACK));
 
         Box south = Box.createHorizontalBox();
-        south.add(new AwaitBeginningPanel(observableGame));
-        south.add(new AwaitGameFinishPanel(observableGame));
+        south.add(new SouthPanel(observableGame));
         south.setBorder(new LineBorder(Color.BLACK));
 
         cp.add(north, BorderLayout.NORTH);

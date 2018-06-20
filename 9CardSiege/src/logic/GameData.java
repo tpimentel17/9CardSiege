@@ -25,7 +25,7 @@ public class GameData implements Serializable {
     private ArrayList<String> messageLog;
 
     public GameData() {
-       initialize();
+        initialize();
     }
 
     public final boolean initialize() {
@@ -111,18 +111,16 @@ public class GameData implements Serializable {
     public int getSoldiersLocation() {
         return playerTracks.getSoldiersLocation();
     }
-    
-    public int getMoralePoints(){
+
+    public int getMoralePoints() {
         return playerTracks.getMorale();
     }
-    
-    public int getSuppliesPoints(){
+
+    public int getSuppliesPoints() {
         return playerTracks.getSupplies();
     }
-    
 
     // </editor-fold>
-    
     // <editor-fold desc="PUBLIC METHODS">
     public void clearMessageLog() {
         messageLog.clear();
@@ -147,7 +145,7 @@ public class GameData implements Serializable {
         return gameStatus;
     }
     //</editor-fold>
-    
+
     // <editor-fold desc="PRIVATE METHODS">
     private boolean endOfTurnLossCheck() {
         return enemyTracks.getNumberOfUnitsInCloseCombat() >= 2 || playerTracks.getNumberOfZeroStats() > 0;
@@ -477,9 +475,10 @@ public class GameData implements Serializable {
                 return true;
             case BOILING_WATER:
                 return boilingWaterAttack(selectedTrack);
-            default:
+            case CLOSE_COMBAT:
                 return closeCombat(selectedTrack);
         }
+        return false;
     }
 
     public boolean closeCombat() {
